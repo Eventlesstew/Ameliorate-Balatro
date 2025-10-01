@@ -10,6 +10,16 @@ return {
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
                 },
             },
+            j_sj_etikan = {
+                name = "Etikan",
+                text = {
+                    {
+                        "This Joker gains {C:chips}+#2#{} Chip per",
+                        "discarded card.",
+                        "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Mult)",
+                    }
+                },
+            },
             j_sj_tabi = {
                 name = "Tabi",
                 text = {
