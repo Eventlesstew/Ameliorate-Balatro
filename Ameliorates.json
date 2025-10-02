@@ -3,7 +3,7 @@
   "name": "Ameliorates in Balatro",
   "display_name": "Ameliorates",
   "author": ["Eventlesstew", "MonstyrSlayr"],
-  "description": "A Balatro mod that adds Ameliorates to the game.",
+  "description": "A Balatro mod that adds Ameliorates to the game. Credit to @somethingcom515 for the Spotscast Joker Code",
   "prefix": "ameliorates",
   "prefixcomment":"ABOVE PREFIX IS ADDED TO E.G. LOCALIZATION!",
   "main_file": "Ameliorates.lua",

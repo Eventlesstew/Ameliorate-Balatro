@@ -477,6 +477,7 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)
+        local r_value = ""
         local r_mults = {}
         for i = card.ability.extra.min, card.ability.extra.max do
             r_mults[#r_mults + 1] = tostring(i)
@@ -908,7 +909,7 @@ SMODS.Joker{
     soul_pos = { x = 1, y = 0 },
     rarity = 4,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
-    blueprint_compat=true,                               --does joker work with blueprint.
+    blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
     unlocked = true,                                     --is joker unlocked by default.
@@ -917,11 +918,17 @@ SMODS.Joker{
     atlas = 'spotscast',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-        local ret = SMODS.blueprint_effect(card, G.jokers.cards[1], context)
-        if ret then
-            ret.colour = G.C.RED
+        local effects = {}
+        for k, v in pairs(G.jokers.cards) do
+            if v ~= card then
+                local effect = SMODS.blueprint_effect(card, v, context)
+                if effect then
+                    effect.colour = G.C.RED
+                end
+                table.insert(effects, effect)
+            end
         end
-        return ret
+        return SMODS.merge_effects(effects)
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
