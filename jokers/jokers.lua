@@ -917,7 +917,11 @@ SMODS.Joker{
     atlas = 'spotscast',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        local ret = SMODS.blueprint_effect(card, G.jokers.cards[1], context)
+        if ret then
+            ret.colour = G.C.RED
+        end
+        return ret
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable

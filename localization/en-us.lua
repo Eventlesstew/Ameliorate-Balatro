@@ -192,7 +192,11 @@ return {
                 name = "Spotscast",
                 text = {
                     {
+                        "Copies the ability",
+                        "of all {C:attention}Jokers",
+                        "in hand".
                         "{X:mult,C:white}INCOMPLETE{}",
+                        "({C:mult}Only copies leftmost Joker.)"
                     }
                 },
             },
