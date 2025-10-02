@@ -21,14 +21,18 @@ return {
             j_ameliorates_arpeggidough = {
                 name = "Arpeggidough",
                 text = {
+                        "If {C:attention}first hand {}of round has only {C:attention} 1{}",
+                        "card, add a random {C:attention}enhancement to it.",
                         "{X:mult,C:white}INCOMPLETE{}",
+                        "{C:mult}Only turns cards to Gold cards."
                 },
             },
 
             j_ameliorates_meeka = {
                 name = "Meeka",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{C:green}#1# in #2#{} chance to",
+                        "retrigger played card."
                 },
             },
 
@@ -114,7 +118,10 @@ return {
             j_ameliorates_trashcymbal = {
                 name = "Trash Cymbal",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{C:chips}+#1# {}Chips on {C:attention}odd",
+                        "{}numbered rounds",
+                        "{C:mult}+#2# {}Mult on {C:attention}even",
+                        "{}numbered rounds",
                 },
             },
 

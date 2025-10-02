@@ -35,7 +35,7 @@ SMODS.Joker{
     config = { extra = { x_mult = 2} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 5,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -105,7 +105,7 @@ SMODS.Joker{
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
-    blueprint_compat=true,                               --does joker work with blueprint.
+    blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
     unlocked = true,                                     --is joker unlocked by default.
@@ -114,8 +114,26 @@ SMODS.Joker{
     soul_pos=nil,                                        --pos of a soul sprite.
     atlas = 'arpeggidough',                                --atlas name, single sprites are deprecated.
 
-    calculate = function(self,card,context)              --define calculate functions here
+    calculate = function(self,card,context)
+        if context.first_hand_drawn and not context.blueprint then
+            local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
+            juice_card_until(card, eval, true)
+        end
 
+        if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+            local scored_card = context.scoring_hand[1]
+
+            scored_card:set_ability('m_mult', nil, true)
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    scored_card:juice_up()
+                    return true
+                end
+            }))
+            return {
+                message = localize('k_upgrade_ex'),
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
@@ -132,10 +150,10 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "meeka",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {odds = 2} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 4,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -146,11 +164,18 @@ SMODS.Joker{
     atlas = 'meeka',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.repetition and context.cardarea == G.play then
+            if SMODS.pseudorandom_probability(card, 'meeka', 1, card.ability.extra.odds) then
+                return {
+                    repetitions = 1
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'meeka')
+        return { vars = {numerator, denominator}, key = self.key }
     end
 }
 
@@ -213,7 +238,7 @@ SMODS.Joker{
     config = {extra = { x_mult_mod = 0.5, x_mult = 1}},
     pos = { x = 0, y = 0 },
     rarity = 2,
-    cost = 4,
+    cost = 5,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat=false,
@@ -325,7 +350,7 @@ SMODS.Joker{
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 7,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=false,
@@ -432,7 +457,7 @@ SMODS.Joker{
     discovered = true,                                   --is joker discovered by default.    
     effect=nil,                                          --you can specify an effect here eg. 'Mult'
     soul_pos=nil,                                        --pos of a soul sprite.
-    atlas = 'octosquish',                                --atlas name, single sprites are deprecated.
+    atlas = 'alliumaid',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
 
@@ -455,7 +480,7 @@ SMODS.Joker{
     config = { extra = { min = 1, max = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -563,9 +588,9 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "trashcymbal",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {chips = 111, mult = 20} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
-    rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
+    rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
@@ -577,11 +602,23 @@ SMODS.Joker{
     atlas = 'trashcymbal',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.joker_main and context.cardarea == G.jokers then
+            if (G.GAME.round % 2) == 0 then
+                return {
+                    mult = card.ability.extra.mult, 
+                    colour = G.C.MULT
+                }
+            else
+                return {
+                    chips = card.ability.extra.chips, 
+                    colour = G.C.CHIPS
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.chips, card.ability.extra.mult}, key = self.key }
     end
 }
 
