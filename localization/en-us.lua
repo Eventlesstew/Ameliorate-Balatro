@@ -70,7 +70,9 @@ return {
             j_ameliorates_nillacorn = {
                 name = "NillaCorn",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                    "{C:chips}+#1#{} Chips",
+                    "{C:chips}+#2#{} Chips for",
+                    "every hand played",
                 },
             },
 
