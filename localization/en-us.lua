@@ -22,9 +22,7 @@ return {
                 name = "Arpeggidough",
                 text = {
                         "If {C:attention}first hand {}of round has only {C:attention} 1{}",
-                        "card, add a random {C:attention}enhancement to it.",
-                        "{X:mult,C:white}INCOMPLETE{}",
-                        "{C:mult}Only turns cards to Gold cards."
+                        "card, add a random {C:attention}enhancement to it."
                 },
             },
 

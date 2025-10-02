@@ -123,7 +123,13 @@ SMODS.Joker{
         if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
             local scored_card = context.scoring_hand[1]
 
-            scored_card:set_ability('m_mult', nil, true)
+            local options = get_current_pool('Enhanced')
+            for k, v in pairs(options) do
+                if v == 'm_stone' then
+                    table.remove(options, v)
+                end
+            end
+            card:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
             G.E_MANAGER:add_event(Event({
                 func = function()
                     scored_card:juice_up()
