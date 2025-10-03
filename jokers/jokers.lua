@@ -543,51 +543,62 @@ SMODS.Joker{
         for i = card.ability.extra.min, card.ability.extra.max do
             r_mults[#r_mults + 1] = tostring(i)
         end
-
-        main_start = {
-            { 
-                n = G.UIT.O, 
-                config = { 
-                    object = DynaText({
-                        string = r_mults,
-                        pop_in_rate = 9999999,
-                        silent = true,
-                        random_element = true,
-                        pop_delay = 0.5,
-                        scale = 0.32,
-                        min_cycle_time = 0 
-                    }) 
-                } 
-            },
-        }
-        
-        --[[
         local loc_mult = ' ' .. (localize('k_mult')) .. ' '
         main_start = {
-            { 
-                n = G.UIT.T,
-                config = { text = '  X', colour = G.C.MULT, scale = 0.32 }
+            {
+                n = G.UIT.C,
+                config = {
+                    colour = G.C.RED,
+                    --r = 0.1,
+                    padding = 0.02,
+                },
+                nodes = {
+                    { 
+                        n = G.UIT.T,
+                        config = {
+                            text = 'X',
+                            colour = G.C.WHITE,
+                            scale = 0.32,
+                        }
+                    },
+                    { 
+                        n = G.UIT.O, 
+                        config = { 
+                            object = DynaText({
+                                string = r_mults,
+                                colours = {G.C.WHITE},
+                                pop_in_rate = 9999999,
+                                silent = true,
+                                random_element = true,
+                                pop_delay = 0.5,
+                                scale = 0.32,
+                                min_cycle_time = 0,
+                            })
+                        } 
+                    },
+                }
             },
-            { 
-                n = G.UIT.O, 
-                config = { 
-                    object = DynaText({
-                        string = r_mults,
-                        colours = {G.C.MULT},
-                        pop_in_rate = 9999999,
-                        silent = true,
-                        random_element = true,
-                        pop_delay = 0.5,
-                        scale = 0.32,
-                        min_cycle_time = 0 }) } },
             {
                 n = G.UIT.O,
                 config = {
                     object = DynaText({
                         string = {
-                            { string = 'rand()', colour = G.C.JOKER_GREY }, { string = "#@" .. (G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.id or 11) .. (G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.suit:sub(1, 1) or 'D'), colour = G.C.RED },
-                            loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult,
-                            loc_mult, loc_mult, loc_mult, loc_mult },
+                            {string = 'rand()', colour = G.C.JOKER_GREY},
+                            {string = "#@" .. (G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.id or 11) .. (G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.suit:sub(1, 1) or 'D'), colour = G.C.RED },
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                            loc_mult,
+                        },
                         colours = { G.C.UI.TEXT_DARK },
                         pop_in_rate = 9999999,
                         silent = true,
@@ -599,7 +610,7 @@ SMODS.Joker{
                 }
             },
         }
-        ]]
+        
         return { main_start = main_start, vars = {r_value}, key = self.key }
     end,
 }
