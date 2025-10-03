@@ -61,7 +61,11 @@ return {
             j_ameliorates_yaun = {
                 name = "Yaun",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains {X:mult,C:white}X#2# {}Mult",
+                        "when each played card",
+                        "is scored, resets when",
+                        "{C:attention}Boss Blind {}is defeated",
+                        "{C:inactive}Currently {X:mult, C:white}X#1# {C:inactive}Mult"
                 },
             },
 
@@ -105,7 +109,7 @@ return {
             j_ameliorates_expifour = {
                 name = "Expi-Four",
                 text = {
-                    "",
+                    "{X:mult,C:white}X",
                 },
             },
 

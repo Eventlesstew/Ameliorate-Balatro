@@ -238,7 +238,6 @@ SMODS.Joker{
     end
 }
 
---[[
 SMODS.Atlas({
     key = "tabi",
     path = "tabi.png",
@@ -297,7 +296,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "yaun",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 0.1} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -311,11 +310,36 @@ SMODS.Joker{
     atlas = 'yaun',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
+        if not context.blueprint then
+            if context.individual and context.cardarea == G.play then
+                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod
+                return {
+                    extra = {focus = card, message = localize('k_upgrade_ex')},
+                    card = card,
+                    colour = G.C.MULT
+                }
+            end
+            if context.end_of_round and context.game_over == false and context.main_eval then
+                if context.beat_boss and card.ability.extra.x_mult > 1 then
+                    card.ability.extra.x_mult = 1
+                    return {
+                        message = localize('k_reset'),
+                        colour = G.C.RED
+                    }
+                end
+            end
+        end
 
+        if context.joker_main and context.cardarea == G.jokers then
+            return {
+                x_mult = card.ability.extra.x_mult, 
+                colour = G.C.MULT
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.x_mult, card.ability.extra.x_mult_mod}, key = self.key }
     end
 }
 
@@ -515,11 +539,29 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)
-        local r_value = ""
         local r_mults = {}
         for i = card.ability.extra.min, card.ability.extra.max do
             r_mults[#r_mults + 1] = tostring(i)
         end
+
+        main_start = {
+            { 
+                n = G.UIT.O, 
+                config = { 
+                    object = DynaText({
+                        string = r_mults,
+                        pop_in_rate = 9999999,
+                        silent = true,
+                        random_element = true,
+                        pop_delay = 0.5,
+                        scale = 0.32,
+                        min_cycle_time = 0 
+                    }) 
+                } 
+            },
+        }
+        
+        --[[
         local loc_mult = ' ' .. (localize('k_mult')) .. ' '
         main_start = {
             { 
@@ -557,7 +599,8 @@ SMODS.Joker{
                 }
             },
         }
-        return { main_start = main_start }
+        ]]
+        return { main_start = main_start, vars = {r_value}, key = self.key }
     end,
 }
 
@@ -634,6 +677,8 @@ SMODS.Joker{
         return { vars = {card.ability.extra.chips, card.ability.extra.mult}, key = self.key }
     end
 }
+
+--[[
 
 SMODS.Atlas({
     key = "dormana",
@@ -1081,6 +1126,7 @@ SMODS.Joker{
         return { vars = {}, key = self.key }
     end
 }
+
 
 SMODS.Atlas({
     key = "bushka",

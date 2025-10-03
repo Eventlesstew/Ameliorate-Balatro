@@ -3,7 +3,7 @@
   "name": "Ameliorates in Balatro",
   "display_name": "Ameliorates",
   "author": ["Eventlesstew"],
-  "description": "A Balatro mod that adds the Ameliorates to the game as Jokers. Credits to @MonstyrSlayr who owns the Ameliorates.",
+  "description": "A Balatro mod that adds the Ameliorates to the game as Jokers. Credits to @MonstyrSlayr who owns the Ameliorates and Somethingcom515 for help with Balatro code.",
   "prefix": "ameliorates",
   "prefixcomment":"ABOVE PREFIX IS ADDED TO E.G. LOCALIZATION!",
   "main_file": "Ameliorates.lua",
