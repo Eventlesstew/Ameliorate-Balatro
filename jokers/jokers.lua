@@ -289,7 +289,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "yaun",
-    path = "placeholderJimbo.png",
+    path = "yaunfunny.png",
     px = 71,
     py = 95
 })
@@ -414,7 +414,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "jugashley",
-    path = "placeholderJimbo.png",
+    path = "jugashley.png",
     px = 71,
     py = 95
 })
@@ -549,7 +549,7 @@ SMODS.Joker{
                 n = G.UIT.C,
                 config = {
                     colour = G.C.RED,
-                    --r = 0.1,
+                    res = 1,
                     padding = 0.02,
                 },
                 nodes = {

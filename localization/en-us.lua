@@ -51,9 +51,9 @@ return {
                 name = "Tabi",
                 text = {
                     {
-                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
-                        "when a {C:attention}Joker{} is destroyed",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+                        "This Joker gains {X:mult,C:white}X#2# {}Mult",
+                        "when a {C:attention}Joker {}is destroyed",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive}Mult)",
                     }
                 },
             },
