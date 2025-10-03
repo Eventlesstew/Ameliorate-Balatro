@@ -63,38 +63,44 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "guira",
-    path = "placeholderJimbo.png",
+    path = "guira.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "guira",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {chip_mod = 20, chips = 0} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 4,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
     unlocked = true,                                     --is joker unlocked by default.
     discovered = true,                                   --is joker discovered by default.    
     effect=nil,                                          --you can specify an effect here eg. 'Mult'
-    soul_pos=nil,                                        --pos of a soul sprite.
+    soul_pos={ x = 1, y = 0 },                                        --pos of a soul sprite.
     atlas = 'guira',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.joker_main and context.cardarea == G.jokers then
+            card.ability.extra.chips = card.ability.extra.chip_mod * #G.jokers.cards
+            return {
+                chips = card.ability.extra.chips,
+                colour = G.C.CHIPS
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.chip_mod * (G.jokers and #G.jokers.cards or 0), card.ability.extra.chip_mod}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "arpeggidough",
-    path = "placeholderJimbo.png",
+    path = "arpeggidough.png",
     px = 71,
     py = 95
 })
@@ -125,11 +131,11 @@ SMODS.Joker{
 
             local options = get_current_pool('Enhanced')
             for k, v in pairs(options) do
-                if v == 'm_stone' then
-                    table.remove(options, v)
+                if v == 'm_stone' or v == scored_card.config.center.key then
+                    table.remove(options, k)
                 end
             end
-            card:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
+            scored_card:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
             G.E_MANAGER:add_event(Event({
                 func = function()
                     scored_card:juice_up()
@@ -149,7 +155,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "meeka",
-    path = "placeholderJimbo.png",
+    path = "meeka.png",
     px = 71,
     py = 95
 })
@@ -232,6 +238,7 @@ SMODS.Joker{
     end
 }
 
+--[[
 SMODS.Atlas({
     key = "tabi",
     path = "tabi.png",
@@ -587,7 +594,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "trashcymbal",
-    path = "placeholderJimbo.png",
+    path = "trashcymbal.png",
     px = 71,
     py = 95
 })
@@ -947,7 +954,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "spotscast",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {odds = 3} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                             --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     soul_pos = { x = 1, y = 0 },
     rarity = 4,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
@@ -963,19 +970,22 @@ SMODS.Joker{
     calculate = function(self,card,context)              --define calculate functions here
         local effects = {}
         for k, v in pairs(G.jokers.cards) do
-            if v ~= card then
-                local effect = SMODS.blueprint_effect(card, v, context)
-                if effect then
-                    effect.colour = G.C.RED
+            if SMODS.pseudorandom_probability(card, 'spotscast', 1, card.ability.extra.odds) then
+                if v ~= card then
+                    local effect = SMODS.blueprint_effect(card, v, context)
+                    if effect then
+                        effect.colour = G.C.RED
+                    end
+                    table.insert(effects, effect)
                 end
-                table.insert(effects, effect)
             end
         end
         return SMODS.merge_effects(effects)
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'meeka')
+        return { vars = {numerator, denominator}, key = self.key }
     end
 }
 
@@ -1138,3 +1148,4 @@ SMODS.Joker{
         return { vars = {}, key = self.key }
     end
 }
+]]

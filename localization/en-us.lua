@@ -13,7 +13,8 @@ return {
                 name = "Guira",
                 text = {
                     {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{C:chips}+#2#{} Chips for each {C:attention}Joker {}card",
+                        "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)"
                     }
                 },
             },
@@ -21,8 +22,10 @@ return {
             j_ameliorates_arpeggidough = {
                 name = "Arpeggidough",
                 text = {
-                        "If {C:attention}first hand {}of round has only {C:attention} 1{}",
-                        "card, add a random {C:attention}enhancement to it."
+                        "If {C:attention}first hand {}of",
+                        "round has only {C:attention}1{}",
+                        "card, add a random",
+                        "{C:attention}enhancement {}to it."
                 },
             },
 
@@ -197,8 +200,9 @@ return {
                 name = "Spotscast",
                 text = {
                     {
-                        "Copies the ability of",
-                        "every owned {C:attention}Joker",
+                        "{C:green}#1# in #2# {}chance to copy",
+                        "each {C:attention}Joker {}owned",
+                        "{C:inactive}(Must be compatible)",
                     }
                 },
             },
