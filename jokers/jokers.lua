@@ -70,7 +70,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "guira",                                  --name used by the joker.    
-    config = { extra = {chip_mod = 20, chips = 0} },    --variables used for abilities and effects.
+    config = { extra = {chip_mod = 15, chips = 0} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 4,                                            --cost to buy the joker in shops.
@@ -247,7 +247,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "tabi",
-    config = {extra = { x_mult_mod = 0.5, x_mult = 1}},
+    config = {extra = { x_mult_mod = 0.75, x_mult = 1}},
     pos = { x = 0, y = 0 },
     rarity = 2,
     cost = 5,
@@ -580,7 +580,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "expifour",                                  --name used by the joker.    
-    config = { extra = { min = 1, max = 4} },    --variables used for abilities and effects.
+    config = { extra = { min = 1, max = 6} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 6,                                            --cost to buy the joker in shops.
@@ -690,7 +690,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "octosquish",                                  --name used by the joker.    
-    config = { extra = {chips = 50, mult = 15, x_mult = 3, dollars = 5, action = 0} },    --variables used for abilities and effects.
+    config = { extra = {chips = 75, mult = 15, x_mult = 3, dollars = 7, action = 0} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 5,                                            --cost to buy the joker in shops.
