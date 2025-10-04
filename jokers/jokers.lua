@@ -494,7 +494,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "orgako",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {odds = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 4,                                            --cost to buy the joker in shops.
@@ -824,21 +824,21 @@ SMODS.Joker{
     end
 }
 
---[[
+
 
 SMODS.Atlas({
     key = "dormana",
-    path = "placeholderJimbo.png",
+    path = "dormanatemp.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "dormana",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {odds = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 5,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -849,24 +849,35 @@ SMODS.Joker{
     atlas = 'dormana',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.individual and context.cardarea == G.play then
+            if not context.other_card:get_edition() then 
+                if SMODS.pseudorandom_probability(card, 'dormana', 1, card.ability.extra.odds) then
+                    local edition = poll_edition('dormana_edition', nil, true, true, {'e_polychrome', 'e_holo', 'e_foil' })
+                    context.other_card:set_edition(edition, true)
+                end
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'dormana')
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_foil
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_holo
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
+        return { vars = {numerator, denominator}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "nnoygon",
-    path = "placeholderJimbo.png",
+    path = "nnoygontemp.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "nnoygon",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 0.05, suit = 'Diamonds'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -880,24 +891,39 @@ SMODS.Joker{
     atlas = 'nnoygon',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.individual and context.cardarea == G.play then
+            if context.other_card:is_suit(card.ability.extra.suit) then
+                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod
+                return {                             -- shows a message under the specified card (card) when it triggers, k_upgrade_ex is a key in the localization files of Balatro
+                    extra = {focus = card, message = localize('k_upgrade_ex')},
+                    card = card,
+                    colour = G.C.MULT
+                }
+            end
+            if context.joker_main and context.cardarea == G.jokers then
+                return {
+                    x_mult = card.ability.extra.x_mult, 
+                    colour = G.C.MULT
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.x_mult, card.ability.extra.x_mult_mod, localize(card.ability.extra.suit, 'suits_singular')}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "organe",
-    path = "placeholderJimbo.png",
+    path = "organetemp.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "organe",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {suit = 'Clubs'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -911,11 +937,17 @@ SMODS.Joker{
     atlas = 'organe',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:is_suit(card.ability.extra.suit) then
+                return {
+                    repetitions = 1
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.suit}, key = self.key }
     end
 }
 
@@ -942,7 +974,7 @@ SMODS.Joker{
     atlas = 'robby',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
@@ -1136,6 +1168,7 @@ SMODS.Joker{
     end
 }
 
+--[[
 SMODS.Atlas({
     key = "spotscast",
     path = "spotscast.png",
@@ -1175,7 +1208,7 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'meeka')
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'spotscast')
         return { vars = {numerator, denominator}, key = self.key }
     end
 }

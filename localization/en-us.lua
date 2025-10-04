@@ -148,21 +148,28 @@ return {
             j_ameliorates_dormana = {
                 name = "Dormana",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                    "{C:green}#1# in #2# {}chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
+                    "or {C:dark_edition}Polychrome{} effect to",
+                    "played card when scored",
                 },
             },
 
             j_ameliorates_nnoygon = {
                 name = "Nnoygon",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                        "when {C:diamonds}#3#{} cards",
+                        "are scored",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
             j_ameliorates_organe = {
                 name = "Organe",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Retrigger all played",
+                        "{C:clubs}#1#{} cards"
                 },
             },
 
