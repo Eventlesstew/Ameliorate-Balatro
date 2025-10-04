@@ -289,7 +289,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "yaun",
-    path = "yaunfunny.png",
+    path = "yaun.png",
     px = 71,
     py = 95
 })
@@ -345,7 +345,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "esckickis",
-    path = "placeholderJimbo.png",
+    path = "esckickis.png",
     px = 71,
     py = 95
 })
@@ -421,7 +421,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "jugashley",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {chips = 0, mult = 0, chip_mod = 50, mult_mod = 8, poker_hand = 'Straight Flush'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -435,17 +435,38 @@ SMODS.Joker{
     atlas = 'jugashley',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.before and not context.blueprint and next(context.poker_hands[card.ability.extra.poker_hand]) then
+            -- See note about SMODS Scaling Manipulation on the wiki
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.PURPLE,
+            }
+        end
+        if context.joker_main and context.cardarea == G.jokers then
+            local effects = {
+                {
+                    chips = card.ability.extra.chips, 
+                    colour = G.C.CHIPS
+                },
+                {
+                    mult = card.ability.extra.mult, 
+                    colour = G.C.MULT
+                }
+            }
+            return SMODS.merge_effects(effects)
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.poker_hand}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "orgako",
-    path = "placeholderJimbo.png",
+    path = "orgako.png",
     px = 71,
     py = 95
 })
@@ -466,7 +487,13 @@ SMODS.Joker{
     atlas = 'orgako',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:get_edition() then
+                return {
+                    repetitions = 1
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
@@ -476,7 +503,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "alliumaid",
-    path = "placeholderJimbo.png",
+    path = "alliumaid.png",
     px = 71,
     py = 95
 })
@@ -617,17 +644,17 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "octosquish",
-    path = "placeholderJimbo.png",
+    path = "octosquish.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "octosquish",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {chips = 75, mult = 20, x_mult = 3, dollars = 5, action = 0} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 5,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -638,13 +665,67 @@ SMODS.Joker{
     atlas = 'octosquish',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.joker_main and context.cardarea == G.jokers then
+            local action = G.GAME.current_round.ameliorates_octosquish
+            if action == 1 then
+                return {
+                    chips = card.ability.extra.chips, 
+                    colour = G.C.CHIPS
+                }
+            elseif action == 2 then
+                return {
+                    mult = card.ability.extra.mult, 
+                    colour = G.C.MULT
+                }
+            elseif action == 3 then
+                return {
+                    x_mult = card.ability.extra.x_mult, 
+                    colour = G.C.MULT
+                }
+            elseif action == 4 then
+                return {
+                    dollars = card.ability.extra.dollars,
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars}
+        local action = G.GAME.current_round.ameliorates_octosquish
+        local actionMSG = ''
+        if action == 0 then
+            return {
+                actionMSG = '{C:inactive}Currently does nothing'
+            }
+        elseif action == 1 then
+            return {
+                actionMSG = '{C:inactive}Currently {C:chips}+#1# {C:inactive}Chips'
+            }
+        elseif action == 2 then
+            return {
+                actionMSG = '{C:inactive}Currently {C:mult}+#2# {C:inactive}Mult'
+            }
+        elseif action == 3 then
+            return {
+                actionMSG = '{C:inactive}Currently {X:mult, C:white}X#3# {C:inactive}Mult'
+            }
+        elseif action == 4 then
+            return {
+                actionMSG = '{C:inactive}Currently earns {C:money}$#4#'
+            }
+        end
+        main_end = {
+            n = G.UIT.T,
+            text = actionMSG
+        }
+        return {vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars}, main_end, key = self.key }
     end
 }
+
+local function reset_ameliorates_octosquish()
+    G.GAME.current_round.ameliorates_octosquish = pseudorandom('octosquish', 0, 4)
+end
 
 SMODS.Atlas({
     key = "trashcymbal",
@@ -669,6 +750,19 @@ SMODS.Joker{
     atlas = 'trashcymbal',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
+        if context.setting_blind and not context.blueprint then
+            if (G.GAME.round % 2) == 0 then
+                return {
+                    message = localize('k_mult_ex'),
+                    colour = G.C.MULT
+                }
+            else
+                return {
+                    message = localize('k_chips_ex'),
+                    colour = G.C.CHIPS
+                }
+            end
+        end
         if context.joker_main and context.cardarea == G.jokers then
             if (G.GAME.round % 2) == 0 then
                 return {
@@ -1206,3 +1300,7 @@ SMODS.Joker{
     end
 }
 ]]
+
+function SMODS.current_mod.reset_game_globals(run_start)
+    reset_ameliorates_octosquish()    -- See Octosquish
+end

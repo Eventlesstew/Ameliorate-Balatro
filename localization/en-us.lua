@@ -88,14 +88,19 @@ return {
             j_ameliorates_jugashley = {
                 name = "Jugashley",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Gains {C:chips}+#2# {}Chips and",
+                        "{C:mult}+#4# {}Mult if played hand",
+                        "contains a {C:attention}#5#",
+                        "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips",
+                        "{C:inactive}and {C:mult}+#3# {C:inactive}Mult"
                 },
             },
 
             j_ameliorates_orgako = {
                 name = "Orgako",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Retrigger all cards played",
+                        "with an {C:attention}Edition"
                 },
             },
 
@@ -116,7 +121,9 @@ return {
             j_ameliorates_octosquish = {
                 name = "Octosquish",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Grants either {C:chips}+#1# {}Chips, {C:mult}+#2# {}Mult,",
+                        "{X:mult,C:white}X#3# {}Mult, {C:money}$#4# {}or nothing",
+                        "Effect changes every round",
                 },
             },
 
@@ -277,6 +284,12 @@ return {
             a_sold_tally="#1#/#2# Sold",
             a_xmult="X#1# Mult",
             a_xmult_minus="-X#1# Mult",
+        }
+    },
+    misc = {
+        dictionary = {
+            k_chips_ex = 'Chips!',
+            k_mult_ex = 'Mult!',
         }
     }
 }
