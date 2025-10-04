@@ -651,7 +651,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "octosquish",                                  --name used by the joker.    
-    config = { extra = {chips = 75, mult = 20, x_mult = 3, dollars = 5, action = 0} },    --variables used for abilities and effects.
+    config = { extra = {chips = 50, mult = 15, x_mult = 3, dollars = 5, action = 0} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 5,                                            --cost to buy the joker in shops.
@@ -693,33 +693,35 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
         vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars}
         local action = G.GAME.current_round.ameliorates_octosquish
-        local actionMSG = ''
+        local msg1b = G.C.WHITE
+        local msg1v = G.C.BLACK
+        local msg1 = ''
+        local msg2 = ''
         if action == 0 then
-            return {
-                actionMSG = '{C:inactive}Currently does nothing'
-            }
+            msg2 = 'does nothing'
         elseif action == 1 then
-            return {
-                actionMSG = '{C:inactive}Currently {C:chips}+#1# {C:inactive}Chips'
-            }
+            msg1v = G.C.CHIPS
+            msg1 = '+' .. tostring(card.ability.extra.chips)
+            msg2 = 'Chips'
         elseif action == 2 then
-            return {
-                actionMSG = '{C:inactive}Currently {C:mult}+#2# {C:inactive}Mult'
-            }
+            msg1v = G.C.MULT
+            msg1 = '+' .. tostring(card.ability.extra.mult)
+            msg2 = 'Mult'
         elseif action == 3 then
-            return {
-                actionMSG = '{C:inactive}Currently {X:mult, C:white}X#3# {C:inactive}Mult'
-            }
+            msg1b = G.C.MULT
+            msg1v = G.C.WHITE
+            msg1 = 'X' .. tostring(card.ability.extra.x_mult)
+            msg2 = 'Mult'
         elseif action == 4 then
-            return {
-                actionMSG = '{C:inactive}Currently earns {C:money}$#4#'
-            }
+            msg1v = G.C.MONEY
+            msg1 = '$' .. tostring(card.ability.extra.dollars)
         end
+
         main_end = {
             n = G.UIT.T,
-            text = actionMSG
+            config = {text = actionMSG, scale = 0.32}
         }
-        return {vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars}, main_end, key = self.key }
+        return {vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars, msg1, msg2, colours = {msg1v, msg1b} }, key = self.key }
     end
 }
 

@@ -122,8 +122,9 @@ return {
                 name = "Octosquish",
                 text = {
                         "Grants either {C:chips}+#1# {}Chips, {C:mult}+#2# {}Mult,",
-                        "{X:mult,C:white}X#3# {}Mult, {C:money}$#4# {}or nothing",
+                        "{X:mult,C:white}X#3# {}Mult, {C:money}$#4# {}or nothing each hand",
                         "Effect changes every round",
+                        "{C:inactive}Currently {V:1}#5# {C:inactive}#6#"
                 },
             },
 
@@ -284,10 +285,7 @@ return {
             a_sold_tally="#1#/#2# Sold",
             a_xmult="X#1# Mult",
             a_xmult_minus="-X#1# Mult",
-        }
-    },
-    misc = {
-        dictionary = {
+
             k_chips_ex = 'Chips!',
             k_mult_ex = 'Mult!',
         }
