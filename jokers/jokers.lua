@@ -352,10 +352,10 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "esckickis",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 1} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -366,11 +366,32 @@ SMODS.Joker{
     atlas = 'esckickis',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if not context.blueprint then
+            if context.before then
+                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod
+                return {                             -- shows a message under the specified card (card) when it triggers, k_upgrade_ex is a key in the localization files of Balatro
+                    extra = {focus = card, message = localize('k_upgrade_ex')},
+                    colour = G.C.MULT
+                }
+            end
+            if context.end_of_round and context.game_over == false and context.main_eval then
+                card.ability.extra.x_mult = 1
+                return {                             -- shows a message under the specified card (card) when it triggers, k_upgrade_ex is a key in the localization files of Balatro
+                    extra = {focus = card, message = localize('k_reset')},
+                    colour = G.C.MULT
+                }
+            end
+        end
+        if context.joker_main and context.cardarea == G.jokers then
+            return { -- returns total chips from joker to be used in scoring, no need to show message in joker_main phase, game does it for us.
+                x_mult = card.ability.extra.x_mult,
+                colour = G.C.MULT
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.x_mult, card.ability.extra.x_mult_mod}, key = self.key }
     end
 }
 
@@ -510,11 +531,11 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "alliumaid",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {dollars = 2, dollar_mod = 2, dollar_limit = 20} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
-    blueprint_compat=true,                               --does joker work with blueprint.
+    cost = 5,                                            --cost to buy the joker in shops.
+    blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
     unlocked = true,                                     --is joker unlocked by default.
@@ -524,11 +545,29 @@ SMODS.Joker{
     atlas = 'alliumaid',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
+        if context.after then
+            card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
+            if card.ability.extra.dollars > card.ability.extra.dollar_limit then
+                SMODS.destroy_cards(card, nil, nil, true)
+                return {
+                    message = localize('k_clean_ex'),
+                    colour = G.C.MONEY,
+                }
+            else
+                return {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.MONEY,
+                }
+            end
+        end
+    end,
 
+    calc_dollar_bonus = function(self, card)
+        return card.ability.extra.dollars
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod, card.ability.extra.dollar_limit}, key = self.key }
     end
 }
 
@@ -692,7 +731,7 @@ SMODS.Joker{
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
         vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars}
-        local action = G.GAME.current_round.ameliorates_octosquish
+        local action = G.GAME.current_round.ameliorates_octosquish or 0
         local msg1b = G.C.WHITE
         local msg1v = G.C.BLACK
         local msg1 = ''
@@ -701,20 +740,20 @@ SMODS.Joker{
             msg2 = 'does nothing'
         elseif action == 1 then
             msg1v = G.C.CHIPS
-            msg1 = '+' .. tostring(card.ability.extra.chips)
-            msg2 = 'Chips'
+            msg1 = localize('k_plus') .. tostring(card.ability.extra.chips)
+            msg2 = ' ' .. localize('k_chips') 
         elseif action == 2 then
             msg1v = G.C.MULT
-            msg1 = '+' .. tostring(card.ability.extra.mult)
-            msg2 = 'Mult'
+            msg1 = localize('k_plus') .. tostring(card.ability.extra.mult)
+            msg2 = ' ' .. localize('k_mult')
         elseif action == 3 then
             msg1b = G.C.MULT
             msg1v = G.C.WHITE
-            msg1 = 'X' .. tostring(card.ability.extra.x_mult)
-            msg2 = 'Mult'
+            msg1 = localize('k_x') .. tostring(card.ability.extra.x_mult)
+            msg2 = ' ' .. localize('k_mult')
         elseif action == 4 then
             msg1v = G.C.MONEY
-            msg1 = '$' .. tostring(card.ability.extra.dollars)
+            msg1 = localize('k_dollar') .. tostring(card.ability.extra.dollars)
         end
 
         main_end = {

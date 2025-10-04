@@ -51,9 +51,9 @@ return {
                 name = "Tabi",
                 text = {
                     {
-                        "This Joker gains {X:mult,C:white}X#2# {}Mult",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
                         "when a {C:attention}Joker {}is destroyed",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive}Mult)",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
                     }
                 },
             },
@@ -61,18 +61,21 @@ return {
             j_ameliorates_yaun = {
                 name = "Yaun",
                 text = {
-                        "This Joker gains {X:mult,C:white}X#2# {}Mult",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
                         "when each played card",
                         "is scored, resets when",
                         "{C:attention}Boss Blind {}is defeated",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1# {C:inactive}Mult)"
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
             j_ameliorates_esckickis = {
                 name = "Esckickis",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                        "for every hand played",
+                        "this round",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
@@ -107,7 +110,11 @@ return {
             j_ameliorates_alliumaid = {
                 name = "Alliumaid",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Earn {C:money}$#1# {}at end of round",
+                        "Payout increases by {C:money}$#2#",
+                        "when hand is played",
+                        "{C:red}Self-destructs {}if",
+                        "Payout exceeds {C:money}$#3#"
                 },
             },
 
@@ -122,9 +129,9 @@ return {
                 name = "Octosquish",
                 text = {
                         "Grants either {C:chips}+#1# {}Chips, {C:mult}+#2# {}Mult,",
-                        "{X:mult,C:white}X#3# {}Mult, {C:money}$#4# {}or nothing each hand",
+                        "{X:mult,C:white}X#3#{} Mult, {C:money}$#4# {}or nothing each hand",
                         "Effect changes every round",
-                        "{C:inactive}Currently {V:1}#5# {C:inactive}#6#"
+                        "{C:inactive}Currently {B:2,V:1}#5#{C:inactive}#6#"
                 },
             },
 
@@ -288,6 +295,12 @@ return {
 
             k_chips_ex = 'Chips!',
             k_mult_ex = 'Mult!',
+            k_chips = 'Chips',
+            k_plus = '+',
+            k_x = 'X',
+            k_dollar = '$',
+
+            k_clean_ex = 'Clean!'
         }
     }
 }
