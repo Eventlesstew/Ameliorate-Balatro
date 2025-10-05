@@ -197,7 +197,10 @@ return {
             j_ameliorates_semohseaga = {
                 name = "Sem Oh Seaga",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{X:mult,C:white}X#1#{} Mult if {C:chips}Chips {}X {C:mult}Mult",
+                        "is not greater than",
+                        "target score",
+                        "{C:inactive}(Always triggers after scoring)"
                 },
             },
 
@@ -275,6 +278,16 @@ return {
                 text = {
                     {
                         "{X:mult,C:white}INCOMPLETE{}",
+                    }
+                },
+            },
+
+            j_ameliorates_sylvesterreese = {
+                name = "Sylvester Reese",
+                text = {
+                    {
+                        "{X:chips,C:white}X#1#{} Chips when",
+                        "{C:attention}Boss Blind{} is selected"
                     }
                 },
             },
