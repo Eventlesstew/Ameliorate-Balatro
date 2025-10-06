@@ -962,6 +962,7 @@ SMODS.Atlas({
     py = 95
 })
 
+-- Idea: Creates a Spectral Card when every second blind is selected.
 SMODS.Joker{
     key = "organe",                                  --name used by the joker.    
     config = { extra = {suit = 'Clubs'} },    --variables used for abilities and effects.
@@ -1061,6 +1062,7 @@ SMODS.Atlas({
     py = 95
 })
 
+-- Have him eating lettuce with the expression referencing the fucking chewing face you can't escape from
 SMODS.Joker{
     key = "rallentando",                                  --name used by the joker.    
     config = { extra = {} },    --variables used for abilities and effects.
@@ -1186,7 +1188,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "kassbick",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {suit = 'Clubs'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -1200,11 +1202,17 @@ SMODS.Joker{
     atlas = 'kassbick',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.repetition and context.cardarea == G.play then
+            if context.other_card:is_suit(card.ability.extra.suit) then
+                return {
+                    repetitions = 1
+                }
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {localize(card.ability.extra.suit, 'suits_singular')}, key = self.key }
     end
 }
 

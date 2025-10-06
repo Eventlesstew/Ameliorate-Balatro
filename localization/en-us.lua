@@ -211,16 +211,17 @@ return {
                 name = "Athenerd",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult if played",
-                    "hand contains",
-                    "a {C:attention}#2# {}or",
-                    "a {C:attention}#3#"
+                    "hand contains a",
+                    "{C:attention}#2# {}or",
+                    "{C:attention}#3#"
                 },
             },
 
             j_ameliorates_kassbick = {
                 name = "Kass Bick",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "Retrigger all played",
+                        "{C:clubs}#1#{} cards"
                 },
             },
 
