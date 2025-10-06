@@ -148,10 +148,10 @@ return {
             j_ameliorates_dormana = {
                 name = "Dormana",
                 text = {
-                    "{C:green}#1# in #2# {}chance to add",
-                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
-                    "or {C:dark_edition}Polychrome{} effect to",
-                    "played card when scored",
+                    "{C:green}#1# in #2#{} chance for each",
+                    "played {C:attention}2{} to create a",
+                    "{C:spectral}Spectral{} card when scored",
+                    "{C:inactive}(Must have room)",
                 },
             },
 
@@ -197,17 +197,23 @@ return {
             j_ameliorates_semohseaga = {
                 name = "Sem Oh Seaga",
                 text = {
-                        "{X:mult,C:white}X#1#{} Mult if {C:chips}Chips {}X {C:mult}Mult",
-                        "is not greater than",
-                        "target score",
-                        "{C:inactive}(Always triggers after scoring)"
+                        "Earn {C:money}$#1# {}at end of round",
+                        "Payout increases by {C:money}$#2#",
+                        "when {C:attention}Blind {}is defeated",
+                        "Resets if played hand is",
+                        "on {C:attention}fire",
+                        "{C:inactive}(Occurs when hand score",
+                        "{C:inactive}reaches target score)"
                 },
             },
 
             j_ameliorates_athenerd = {
                 name = "Athenerd",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                    "{X:mult,C:white}X#1#{} Mult if played",
+                    "hand contains",
+                    "a {C:attention}#2# {}or",
+                    "a {C:attention}#3#"
                 },
             },
 

@@ -828,14 +828,14 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "dormana",
-    path = "dormanatemp.png",
+    path = "dormana.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "dormana",                                  --name used by the joker.    
-    config = { extra = {odds = 6} },    --variables used for abilities and effects.
+    config = { extra = {odds = 3} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 5,                                            --cost to buy the joker in shops.
@@ -849,6 +849,31 @@ SMODS.Joker{
     atlas = 'dormana',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
+        if context.individual and context.cardarea == G.play and
+            #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if (context.other_card:get_id() == 2) and SMODS.pseudorandom_probability(card, 'dormana', 1, card.ability.extra.odds) then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                return {
+                    extra = {
+                        message = localize('k_plus_spectral'),
+                        message_card = card,
+                        func = function() -- This is for timing purposes, everything here runs after the message
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    SMODS.add_card {
+                                        set = 'Spectral',
+                                        key_append = 'dormana' -- Optional, useful for manipulating the random seed and checking the source of the creation in `in_pool`.
+                                    }
+                                    G.GAME.consumeable_buffer = 0
+                                    return true
+                                end)
+                            }))
+                        end
+                    },
+                }
+            end
+        end
+        --[[
         if not context.blueprint then
             if context.before then
                 local enhanced = 0
@@ -875,20 +900,18 @@ SMODS.Joker{
                 end
             end
         end
+        ]]
     end,
 
-    loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
+    loc_vars = function(self, info_queue, card)
         local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'dormana')
-        info_queue[#info_queue + 1] = G.P_CENTERS.e_foil
-        info_queue[#info_queue + 1] = G.P_CENTERS.e_holo
-        info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
         return { vars = {numerator, denominator}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "nnoygon",
-    path = "nnoygontemp.png",
+    path = "nnoygon.png",
     px = 71,
     py = 95
 })
@@ -1064,14 +1087,14 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "semohseaga",
-    path = "placeholderJimbo.png",
+    path = "semohseaga.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "semohseaga",                                  --name used by the joker.    
-    config = { extra = {x_mult = 5} },    --variables used for abilities and effects.
+    config = { extra = {dollars = 4, dollar_mod = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -1085,31 +1108,43 @@ SMODS.Joker{
     atlas = 'semohseaga',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
+        if context.end_of_round and context.game_over == false and context.main_eval then
+            card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MONEY,
+            }
+        end
         if context.after then
-            if SMODS.calculate_round_score() < G.GAME.blind.chips then
+            if SMODS.calculate_round_score() > G.GAME.blind.chips then
+                card.ability.extra.dollars = 4
                 return {
-                    x_mult = card.ability.extra.x_mult, 
-                    colour = G.C.MULT
+                    message = localize('k_reset'),
+                    colour = G.C.MONEY,
                 }
             end
         end
     end,
 
+    calc_dollar_bonus = function(self, card)
+        return card.ability.extra.dollars
+    end,
+
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {card.ability.extra.x_mult}, key = self.key }
+        return { vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod}, key = self.key }
     end
 }
 
 SMODS.Atlas({
     key = "athenerd",
-    path = "placeholderJimbo.png",
+    path = "athenerd.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "athenerd",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 4, type1 = 'Flush House', type2 = 'Five of a Kind'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -1123,11 +1158,22 @@ SMODS.Joker{
     atlas = 'athenerd',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.joker_main and (next(context.poker_hands[card.ability.extra.type1]) or next(context.poker_hands[card.ability.extra.type2])) then
+            return {
+                xmult = card.ability.extra.x_mult
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return {
+            vars = {
+                card.ability.extra.x_mult,
+                localize(card.ability.extra.type1, 'poker_hands'),
+                localize(card.ability.extra.type2, 'poker_hands'),
+            },
+            key = self.key
+            }
     end
 }
 
