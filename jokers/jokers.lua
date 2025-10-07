@@ -984,15 +984,17 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "robby",
-    path = "placeholderJimbo.png",
+    path = "robby.png",
     px = 71,
     py = 95
 })
 
--- ACTION: Robby could uhhhh fuck i don't know.
+-- ACTION: +60 Chips when one suit is scored
+-- X1.5 Mult when another suit is scored
+-- Both suits change every round
 SMODS.Joker{
     key = "robby",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {chips = 60, x_mult = 1.5} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
