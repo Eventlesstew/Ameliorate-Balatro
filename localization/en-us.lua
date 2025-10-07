@@ -61,11 +61,8 @@ return {
             j_ameliorates_yaun = {
                 name = "Yaun",
                 text = {
-                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
-                        "when each played card",
-                        "is scored, resets when",
-                        "{C:attention}Boss Blind {}is defeated",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
+                        "{X:Mult,C:white}X#1#{} Mult on {C:attention}first",
+                        "{C:attention}hand{} of round",
                 },
             },
 
@@ -95,7 +92,7 @@ return {
                         "{C:mult}+#4# {}Mult if played hand",
                         "contains a {C:attention}#5#",
                         "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips",
-                        "{C:inactive}and {C:mult}+#3# {C:inactive}Mult"
+                        "{C:inactive}and {C:mult}+#3# {C:inactive}Mult)"
                 },
             },
 
@@ -131,7 +128,7 @@ return {
                         "Grants either {C:chips}+#1# {}Chips, {C:mult}+#2# {}Mult,",
                         "{X:mult,C:white}X#3#{} Mult, {C:money}$#4# {}or nothing each hand",
                         "Effect changes every round",
-                        "{C:inactive}Currently {B:2,V:1}#5#{C:inactive}#6#"
+                        "{C:inactive}Currently #5# {B:2,V:1}#6#{C:inactive} #7#"
                 },
             },
 
@@ -158,18 +155,21 @@ return {
             j_ameliorates_nnoygon = {
                 name = "Nnoygon",
                 text = {
-                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
-                        "when {C:diamonds}#3#{} cards",
-                        "are scored",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
+                    "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                    "when {C:diamonds}#3#{} cards",
+                    "are scored",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
             j_ameliorates_organe = {
                 name = "Organe",
                 text = {
-                        "Retrigger all played",
-                        "{C:clubs}#1#{} cards"
+                    "When round begins,",
+                    "add a random",
+                    "{C:attention}playing card {}with a",
+                    "{C:attention}Glass {}enhancement",
+                    "to your hand",
                 },
             },
 
@@ -183,14 +183,22 @@ return {
             j_ameliorates_vack = {
                 name = "Vack",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                        "when each played card",
+                        "is scored, resets when",
+                        "{C:attention}Boss Blind {}is defeated",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
             j_ameliorates_rallentando = {
                 name = "Rallentando",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains",
+                        "{C:mult}+#2# {}Mult every time",
+                        "a {C:attention}Playing Card{}, {C:attention}Joker",
+                        "or {C:attention}Consumable {}card is scored",
+                        "{C:inactive}Currently {C:mult}+#1# {C:inactive}Mult"
                 },
             },
 
@@ -228,7 +236,11 @@ return {
             j_ameliorates_deltah = {
                 name = "Deltah",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{X:mult,C:white}X#2#{} Mult",
+                        "Loses {X:mult,C:white}X#3#{} Mult the",
+                        "further away it",
+                        "is from the left",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 },
             },
 
@@ -256,7 +268,9 @@ return {
                 name = "Re-Fabrić",
                 text = {
                     {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{X:mult,C:white}X#1#{} Mult",
+                        "{X:mult,C:white}X#2#{} Mult if",
+                        "copied by another Joker"
                     }
                 },
             },
@@ -285,16 +299,6 @@ return {
                 text = {
                     {
                         "{X:mult,C:white}INCOMPLETE{}",
-                    }
-                },
-            },
-
-            j_ameliorates_sylvesterreese = {
-                name = "Sylvester Reese",
-                text = {
-                    {
-                        "{X:chips,C:white}X#1#{} Chips when",
-                        "{C:attention}Boss Blind{} is selected"
                     }
                 },
             },
