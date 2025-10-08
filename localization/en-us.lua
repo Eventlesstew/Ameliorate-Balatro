@@ -5,7 +5,8 @@ return {
                 name = "Reese",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult when",
-                    "{C:attention}Boss Blind{} is selected"
+                    "{C:attention}Small Blind{} or",
+                    "{C:attention}Big Blind {}is selected"
                 },
             },
 

@@ -35,7 +35,7 @@ SMODS.Joker{
 
     calculate = function(self,card,context)              --define calculate functions here
         if context.joker_main and context.cardarea == G.jokers then
-            if G.GAME.blind.boss then
+            if not G.GAME.blind.boss then
                 return {
                     x_mult = card.ability.extra.x_mult, 
                     colour = G.C.MULT
