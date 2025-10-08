@@ -61,7 +61,7 @@ return {
             j_ameliorates_yaun = {
                 name = "Yaun",
                 text = {
-                        "{X:Mult,C:white}X#1#{} Mult on {C:attention}first",
+                        "{X:mult,C:white}X#1#{} Mult on {C:attention}first",
                         "{C:attention}hand{} of round",
                 },
             },
@@ -176,7 +176,11 @@ return {
             j_ameliorates_robby = {
                 name = "Robby",
                 text = {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "{C:chips}+#1# {}Chips if",
+                        "{V:1}#2#{} cards are scored",
+                        "{X:mult,C:white}X#3#{} Mult if",
+                        "{V:2}#4#{} cards are scored",
+                        "Suits change every round",
                 },
             },
 
@@ -196,7 +200,7 @@ return {
                 text = {
                         "This Joker gains",
                         "{C:mult}+#2# {}Mult every time",
-                        "a {C:attention}Playing Card{}, {C:attention}Joker",
+                        "a {C:attention}Playing Card{}", -- {C:attention}Joker
                         "or {C:attention}Consumable {}card is scored",
                         "{C:inactive}Currently {C:mult}+#1# {C:inactive}Mult"
                 },

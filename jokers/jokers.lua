@@ -704,7 +704,7 @@ SMODS.Joker{
         local action = G.GAME.current_round.ameliorates_octosquish or 0
         local msg2b = G.C.WHITE
         local msg2v = G.C.BLACK
-        local msg1 = 'grants '
+        local msg1 = 'grants'
         local msg2 = ''
         local msg3 = ''
         if action == 0 then
@@ -731,7 +731,7 @@ SMODS.Joker{
             n = G.UIT.T,
             config = {text = actionMSG, scale = 0.32}
         }
-        return {vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars, msg1, msg2, msg3, colours = {msg1v, msg1b} }, key = self.key }
+        return {vars = {card.ability.extra.chips, card.ability.extra.mult, card.ability.extra.x_mult, card.ability.extra.dollars, msg1, msg2, msg3, colours = {msg2v, msg2b} }, key = self.key }
     end
 }
 
@@ -806,7 +806,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "dormana",                                  --name used by the joker.    
-    config = { extra = {odds = 3} },    --variables used for abilities and effects.
+    config = { extra = {odds = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 5,                                            --cost to buy the joker in shops.
@@ -989,9 +989,6 @@ SMODS.Atlas({
     py = 95
 })
 
--- ACTION: +60 Chips when one suit is scored
--- X1.5 Mult when another suit is scored
--- Both suits change every round
 SMODS.Joker{
     key = "robby",                                  --name used by the joker.    
     config = { extra = {chips = 60, x_mult = 1.5} },    --variables used for abilities and effects.
@@ -1008,24 +1005,70 @@ SMODS.Joker{
     atlas = 'robby',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-        
+        if context.individual and context.cardarea == G.play then
+            
+            local effects = {}
+
+            if context.other_card:is_suit(G.GAME.current_round.robby_suit_1.suit) then
+                effects[#effects + 1] = {
+                    chips = card.ability.extra.chips, 
+                    colour = G.C.MULT,
+                    focus = card
+                }
+            end
+            if context.other_card:is_suit(G.GAME.current_round.robby_suit_2.suit) then
+                effects[#effects + 1] = {
+                    x_mult = card.ability.extra.x_mult, 
+                    colour = G.C.MULT,
+                    focus = card
+                }
+            end
+            if effects then
+                return SMODS.merge_effects(effects)
+            end
+            
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        local suit1 = (G.GAME.current_round.robby_suit_1 or {}).suit or 'Spades'
+        local suit2 = (G.GAME.current_round.robby_suit_2 or {}).suit or 'Hearts'
+        return { vars = {card.ability.extra.chips, localize(suit1, 'suits_singular'), card.ability.extra.x_mult, localize(suit2, 'suits_singular'), colours = {G.C.SUITS[suit1], G.C.SUITS[suit2]}}, key = self.key }
     end
 }
 
+local function reset_ameliorates_robby()
+    G.GAME.current_round.robby_suit_1 = {suit = 'Spades'}
+    G.GAME.current_round.robby_suit_2 = {suit = 'Hearts'}
+
+    local valid_robby_cards = {}
+    for _, playing_card in ipairs(G.playing_cards) do
+        if not SMODS.has_no_suit(playing_card) then
+            valid_robby_cards[#valid_robby_cards + 1] = playing_card
+        end
+    end
+
+    local robby_card_1 = pseudorandom_element(valid_robby_cards, 'robby1' .. G.GAME.round_resets.ante)
+    if robby_card_1 then
+        G.GAME.current_round.robby_suit_1.suit = robby_card_1.base.suit
+    end
+
+    local robby_card_2 = pseudorandom_element(valid_robby_cards, 'robby2' .. G.GAME.round_resets.ante)
+    if robby_card_2 then
+        G.GAME.current_round.robby_suit_2.suit = robby_card_2.base.suit
+    end
+end
+
 SMODS.Atlas({
     key = "vack",
-    path = "placeholderJimbo.png",
+    path = "vack.png",
     px = 71,
     py = 95
 })
 
 SMODS.Joker{
     key = "vack",                                  --name used by the joker.    
-    config = { extra = {x_mult = 1, x_mult_mod = 0.5} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 0.25} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -1074,7 +1117,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "rallentando",
-    path = "placeholderJimbo.png",
+    path = "rallentando.png",
     px = 71,
     py = 95
 })
@@ -1112,11 +1155,11 @@ SMODS.Joker{
                     },
                 }
                 card.ability.extra.mult = 0
-                return SMODS.merge_effects(effects)
+                
             end
         end
         if not context.blueprint then
-            if (context.post_trigger and not context.joker_main) or context.using_consumeable or (context.individual and context.cardarea == G.play) then
+            if --[[(context.post_trigger and not context.joker_main) or]] context.using_consumeable or (context.individual and context.cardarea == G.play) then
                 card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                 return {
                     extra = {focus = card, message = localize('k_upgrade_ex')},
@@ -1225,7 +1268,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "kassbick",
-    path = "placeholderJimbo.png",
+    path = "kassbick.png",
     px = 71,
     py = 95
 })
@@ -1262,7 +1305,7 @@ SMODS.Joker{
 
 SMODS.Atlas({
     key = "deltah",
-    path = "placeholderJimbo.png",
+    path = "deltah.png",
     px = 71,
     py = 95
 })
@@ -1339,6 +1382,8 @@ local function get_deltah_x_mult(position, slots, x_mult_mod)
     return x_mult
 end
 ]]
+
+
 --[[
 SMODS.Atlas({
     key = "spotscast",
@@ -1414,7 +1459,7 @@ SMODS.Joker{
         return { vars = {}, key = self.key }
     end
 }
-]]
+
 SMODS.Atlas({
     key = "refabric",
     path = "refabric.png",
@@ -1452,7 +1497,7 @@ SMODS.Joker{
     end
 }
 
---[[
+
 SMODS.Atlas({
     key = "monkdom",
     path = "monkdom.png",
@@ -1554,5 +1599,6 @@ SMODS.Joker{
 ]]
 
 function SMODS.current_mod.reset_game_globals(run_start)
-    reset_ameliorates_octosquish()    -- See Octosquish
+    reset_ameliorates_octosquish() -- See Octosquish
+    reset_ameliorates_robby() -- See Robby
 end
