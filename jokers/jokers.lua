@@ -98,7 +98,7 @@ SMODS.Joker{
     config = { extra = {} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 4,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -153,7 +153,7 @@ SMODS.Joker{
     config = { extra = {odds = 2} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 4,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -191,7 +191,7 @@ SMODS.Joker{
     config = { extra = { chips = 0, chip_mod = 1 } },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 1,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 3,                                            --cost to buy the joker in shops.
+    cost = 5,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=false,
@@ -208,7 +208,6 @@ SMODS.Joker{
                     
                 return {                             -- shows a message under the specified card (card) when it triggers, k_upgrade_ex is a key in the localization files of Balatro
                     extra = {focus = card, message = localize('k_upgrade_ex')},
-                    card = card,
                     colour = G.C.CHIPS
                 }
             end
@@ -287,7 +286,7 @@ SMODS.Joker{
     config = { extra = {x_mult = 3} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 5,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -299,7 +298,7 @@ SMODS.Joker{
 
     calculate = function(self,card,context)              --define calculate functions here
         if context.joker_main and context.cardarea == G.jokers then
-            if context.first_hand_drawn then
+            if G.GAME.current_round.hands_played == 0 then
                 return {
                     x_mult = card.ability.extra.x_mult, 
                     colour = G.C.MULT
@@ -378,7 +377,7 @@ SMODS.Joker{
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 7,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=false,
@@ -467,7 +466,7 @@ SMODS.Joker{
     config = { extra = {odds = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 4,                                            --cost to buy the joker in shops.
+    cost = 6,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -504,7 +503,7 @@ SMODS.Joker{
     config = { extra = {dollars = 2, dollar_mod = 2, dollar_limit = 20} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 5,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=false,                                 --can joker be eternal.
     perishable_compat=false,
@@ -752,7 +751,7 @@ SMODS.Joker{
     config = { extra = {chips = 111, mult = 20} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 7,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -816,14 +815,14 @@ SMODS.Joker{
     config = { extra = {odds = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 5,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=false,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
     unlocked = true,                                     --is joker unlocked by default.
     discovered = true,                                   --is joker discovered by default.    
     effect=nil,                                          --you can specify an effect here eg. 'Mult'
-    soul_pos=nil,                                        --pos of a soul sprite.
+    soul_pos={x = 1, y = 0},                                        --pos of a soul sprite.
     atlas = 'dormana',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
@@ -899,7 +898,7 @@ SMODS.Joker{
     config = { extra = {x_mult = 1, x_mult_mod = 0.05, suit = 'Diamonds'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 7,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=false,
@@ -946,7 +945,7 @@ SMODS.Joker{
     config = { extra = {} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1001,7 +1000,7 @@ SMODS.Joker{
     config = { extra = {chips = 60, x_mult = 1.5} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1075,10 +1074,10 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "vack",                                  --name used by the joker.    
-    config = { extra = {x_mult = 1, x_mult_mod = 0.25} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 0.2} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1132,10 +1131,10 @@ SMODS.Atlas({
 -- Have him eating lettuce with the expression referencing the fucking chewing face you can't escape from
 SMODS.Joker{
     key = "rallentando",                                  --name used by the joker.    
-    config = { extra = {mult = 0, mult_mod = 2} },    --variables used for abilities and effects.
+    config = { extra = {mult = 5} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1149,35 +1148,17 @@ SMODS.Joker{
     Rallie triggers twice when consumables are used
     ]]
     calculate = function(self,card,context)              --define calculate functions here
-        if context.joker_main and context.cardarea == G.jokers then
-            if card.ability.extra.mult > 0 then
-                local effects = {
-                    {
-                        mult = card.ability.extra.mult, 
-                        colour = G.C.MULT
-                    },
-                    {
-                        message = localize('k_reset'),
-                        colour = G.C.MULT
-                    },
-                }
-                card.ability.extra.mult = 0
-                
-            end
-        end
-        if not context.blueprint then
-            if --[[(context.post_trigger and not context.joker_main) or]] context.using_consumeable or (context.individual and context.cardarea == G.play) then
-                card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
-                return {
-                    extra = {focus = card, message = localize('k_upgrade_ex')},
-                    colour = G.C.MULT
-                }
-            end
+        if (context.individual and context.cardarea == G.play) or context.other_joker then
+            return {
+                mult = card.ability.extra.mult,
+                message_card = card,
+                colour = G.C.MULT
+            }
         end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {card.ability.extra.mult, card.ability.extra.mult_mod}, key = self.key }
+        return { vars = {card.ability.extra.mult}, key = self.key }
     end
 }
 
@@ -1193,7 +1174,7 @@ SMODS.Joker{
     config = { extra = {dollars = 4, dollar_mod = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1243,7 +1224,7 @@ SMODS.Joker{
     config = { extra = {x_mult = 4, type1 = 'Flush House', type2 = 'Five of a Kind'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1254,10 +1235,12 @@ SMODS.Joker{
     atlas = 'athenerd',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-        if context.joker_main and (next(context.poker_hands[card.ability.extra.type1]) or next(context.poker_hands[card.ability.extra.type2])) then
-            return {
-                xmult = card.ability.extra.x_mult
-            }
+        if context.joker_main and context.cardarea == G.jokers then
+            if (next(context.poker_hands[card.ability.extra.type1]) or next(context.poker_hands[card.ability.extra.type2])) then
+                return {
+                    xmult = card.ability.extra.x_mult
+                }
+            end
         end
     end,
 
@@ -1285,7 +1268,7 @@ SMODS.Joker{
     config = { extra = {suit = 'Clubs'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 7,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1324,7 +1307,7 @@ SMODS.Joker{
     },
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 1,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,

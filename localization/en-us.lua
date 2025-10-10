@@ -200,11 +200,8 @@ return {
             j_ameliorates_rallentando = {
                 name = "Rallentando",
                 text = {
-                        "This Joker gains",
-                        "{C:mult}+#2# {}Mult every time",
-                        "a {C:attention}Playing Card{}", -- {C:attention}Joker
-                        "or {C:attention}Consumable {}card is scored",
-                        "{C:inactive}Currently {C:mult}+#1# {C:inactive}Mult"
+                        "Played cards and Jokers",
+                        "each give {C:mult}+#1# {}Mult",
                 },
             },
 
