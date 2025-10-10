@@ -129,17 +129,18 @@ return {
                         "Grants either {C:chips}+#1# {}Chips, {C:mult}+#2# {}Mult,",
                         "{X:mult,C:white}X#3#{} Mult, {C:money}$#4# {}or nothing each hand",
                         "Effect changes every round",
-                        "{C:inactive}Currently #5# {B:2,V:1}#6#{C:inactive} #7#"
+                        "{C:inactive}(Currently #5#{B:2,V:1}#6#{C:inactive}#7#)"
                 },
             },
 
             j_ameliorates_trashcymbal = {
                 name = "Trash Cymbal",
                 text = {
-                        "{C:chips}+#1# {}Chips on {C:attention}odd",
-                        "{}numbered rounds",
-                        "{C:mult}+#2# {}Mult on {C:attention}even",
-                        "{}numbered rounds",
+                    "{C:chips}+#1# {}Chips on {C:attention}odd",
+                    "{}numbered rounds",
+                    "{C:mult}+#2# {}Mult on {C:attention}even",
+                    "numbered rounds",
+                    "{C:inactive}(Currently {V:1}+#3# {C:inactive}#4#)"
                 },
             },
 

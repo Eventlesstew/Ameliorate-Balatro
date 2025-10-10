@@ -704,7 +704,7 @@ SMODS.Joker{
         local action = G.GAME.current_round.ameliorates_octosquish or 0
         local msg2b = G.C.WHITE
         local msg2v = G.C.BLACK
-        local msg1 = 'grants'
+        local msg1 = ''
         local msg2 = ''
         local msg3 = ''
         if action == 0 then
@@ -712,17 +712,18 @@ SMODS.Joker{
         elseif action == 1 then
             msg2v = G.C.CHIPS
             msg2 = localize('k_plus') .. tostring(card.ability.extra.chips)
-            msg3 = localize('k_chips') 
+            msg3 = ' ' .. localize('k_chips') 
         elseif action == 2 then
             msg2v = G.C.MULT
             msg2 = localize('k_plus') .. tostring(card.ability.extra.mult)
-            msg3 = localize('k_mult')
+            msg3 = ' ' .. localize('k_mult')
         elseif action == 3 then
             msg2b = G.C.MULT
             msg2v = G.C.WHITE
             msg2 = localize('k_x') .. tostring(card.ability.extra.x_mult)
-            msg3 = localize('k_mult')
+            msg3 = ' ' .. localize('k_mult')
         elseif action == 4 then
+            msg1 = 'grants '
             msg2v = G.C.MONEY
             msg2 = localize('k_dollar') .. tostring(card.ability.extra.dollars)
         end
@@ -791,7 +792,13 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {card.ability.extra.chips, card.ability.extra.mult}, key = self.key }
+        local evenRound = (G.GAME.round % 2) == 0
+
+        local currentVal = (evenRound and card.ability.extra.mult) or card.ability.extra.chips
+        local currentCol = (evenRound and G.C.MULT) or G.C.CHIPS
+        local currentType = (evenRound and 'Mult') or 'Chips'
+
+        return { vars = {card.ability.extra.chips, card.ability.extra.mult, currentVal, currentType, colours = {currentCol}}, key = self.key }
     end
 }
 
