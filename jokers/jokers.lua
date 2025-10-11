@@ -1374,7 +1374,7 @@ end
 ]]
 
 
---[[
+
 SMODS.Atlas({
     key = "spotscast",
     path = "spotscast.png",
@@ -1459,7 +1459,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "refabric",                                  --name used by the joker.    
-    config = { extra = {x_mult = 3, x_mult_blueprint = 5} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 4, x_mult_blueprint = 8} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 4,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 1,                                            --cost to buy the joker in shops.
@@ -1586,7 +1586,7 @@ SMODS.Joker{
         return { vars = {}, key = self.key }
     end
 }
-]]
+
 
 function SMODS.current_mod.reset_game_globals(run_start)
     reset_ameliorates_octosquish() -- See Octosquish
