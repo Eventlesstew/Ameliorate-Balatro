@@ -305,6 +305,16 @@ return {
                     }
                 },
             },
+
+            j_ameliorates_sylvesterreese = {
+                name = "Sylvester Reese",
+                text = {
+                    {
+                        "{X:chips,C:white}X#1#{} Chips when",
+                        "{C:attention}Boss Blind{} is selected"
+                    }
+                },
+            },
         }
     },
     misc = {
