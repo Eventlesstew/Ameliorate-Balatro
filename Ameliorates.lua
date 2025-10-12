@@ -8,6 +8,7 @@ ameliorates = SMODS.current_mod
 -- Config tab
 if NFS.read(SMODS.current_mod.path.."config.lua") then
     local file = STR_UNPACK(NFS.read(SMODS.current_mod.path.."config.lua"))
+    ameliorates.config_path = SMODS.current_mod.path.."config.lua"
     ameliorates.config_file = file
 end
 
@@ -33,7 +34,7 @@ ameliorates.config_tab = function()
                 ref_value = "ameliorates",
                 callback = function(_set_toggle)
                     ameliorates.config_file.ameliorates = _set_toggle
-                    NFS.write(lovely.mod_dir.."/config.lua", STR_PACK(ameliorates.config_file))
+                    NFS.write(ameliorates.config_path, STR_PACK(ameliorates.config_file))
                 end
             }),
 			create_toggle({
@@ -43,7 +44,7 @@ ameliorates.config_tab = function()
                 ref_value = "onyx",
                 callback = function(_set_toggle)
                     ameliorates.config_file.onyx = _set_toggle
-                    NFS.write(lovely.mod_dir .. "/config.lua", STR_PACK(ameliorates.config_file))
+                    NFS.write(ameliorates.config_path, STR_PACK(ameliorates.config_file))
                 end
 			}),
             create_toggle({
@@ -53,7 +54,7 @@ ameliorates.config_tab = function()
                 ref_value = "extras",
                 callback = function(_set_toggle)
                     ameliorates.config_file.extras = _set_toggle
-                    NFS.write(lovely.mod_dir .. "/config.lua", STR_PACK(ameliorates.config_file))
+                    NFS.write(ameliorates.config_path, STR_PACK(ameliorates.config_file))
                 end
 			}),
 			UIBox_button({

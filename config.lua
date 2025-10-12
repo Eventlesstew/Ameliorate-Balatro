@@ -1,5 +1,1 @@
-return {
-    ["ameliorates"]=true,
-    ["onyx"]=true,
-    ['extras']=true
-}
+return {["onyx"]=false,["extras"]=false,["ameliorates"]=true,}
