@@ -96,30 +96,32 @@ SMODS.Joker{
     atlas = 'arpeggidough',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)
-        if context.first_hand_drawn and not context.blueprint then
-            local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
-            juice_card_until(card, eval, true)
-        end
-
-        if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
-            local scored_card = context.scoring_hand[1]
-
-            local options = get_current_pool('Enhanced')
-            for k, v in pairs(options) do
-                if v == 'm_stone' or v == scored_card.config.center.key then
-                    table.remove(options, k)
-                end
+        if not context.blueprint then
+            if context.first_hand_drawn then
+                local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
+                juice_card_until(card, eval, true)
             end
-            scored_card:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    scored_card:juice_up()
-                    return true
+
+            if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+                local scored_card = context.scoring_hand[1]
+
+                local options = get_current_pool('Enhanced')
+                for k, v in pairs(options) do
+                    if v == 'm_stone' or v == scored_card.config.center.key then
+                        table.remove(options, k)
+                    end
                 end
-            }))
-            return {
-                message = localize('k_upgrade_ex'),
-            }
+                scored_card:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        scored_card:juice_up()
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_upgrade_ex'),
+                }
+            end
         end
     end,
 
