@@ -1,5 +1,14 @@
 return {
     descriptions = {
+        Blind = {
+            bl_ameliorates_final_onyx = {
+                name = "Unknown Entity",
+                text = {
+                    "Cannot play hands containing",
+                    "debuffed suit. Changes each hand",
+                },
+            },
+        },
         Joker = {
             j_ameliorates_reese = {
                 name = "Reese",

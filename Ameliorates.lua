@@ -67,15 +67,18 @@ ameliorates.config_tab = function()
 	}
 end
 
+-- Blinds
+assert(SMODS.load_file("items/blinds.lua"))
+
 -- Jokers
-assert(SMODS.load_file("jokers/jokers.lua"))
+assert(SMODS.load_file("items/jokers.lua"))
 
 if ameliorates.config_file.ameliorates then
-    assert(SMODS.load_file("jokers/jokers_ameliorates.lua"))()
+    assert(SMODS.load_file("items/jokers_ameliorates.lua"))()
 end
 if ameliorates.config_file.onyx then
-    assert(SMODS.load_file("jokers/jokers_onyx.lua"))()
+    assert(SMODS.load_file("items/jokers_onyx.lua"))()
 end
 if ameliorates.config_file.extras then
-    assert(SMODS.load_file("jokers/jokers_extras.lua"))()
+    assert(SMODS.load_file("items/jokers_extras.lua"))()
 end
