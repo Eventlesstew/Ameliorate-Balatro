@@ -37,16 +37,6 @@ ameliorates.config_tab = function()
                     NFS.write(ameliorates.config_path, STR_PACK(ameliorates.config_file))
                 end
             }),
-			create_toggle({
-                align = "tl",
-                label = "Please don't...",
-                ref_table = ameliorates.config_file,
-                ref_value = "onyx",
-                callback = function(_set_toggle)
-                    ameliorates.config_file.onyx = _set_toggle
-                    NFS.write(ameliorates.config_path, STR_PACK(ameliorates.config_file))
-                end
-			}),
             create_toggle({
                 align = "tl",
                 label = "Extra Jokers",
@@ -75,9 +65,6 @@ assert(SMODS.load_file("items/jokers.lua"))
 
 if ameliorates.config_file.ameliorates then
     assert(SMODS.load_file("items/jokers_ameliorates.lua"))()
-end
-if ameliorates.config_file.onyx then
-    assert(SMODS.load_file("items/jokers_onyx.lua"))()
 end
 if ameliorates.config_file.extras then
     assert(SMODS.load_file("items/jokers_extras.lua"))()
