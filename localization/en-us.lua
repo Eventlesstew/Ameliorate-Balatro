@@ -209,8 +209,8 @@ return {
             j_ameliorates_rallentando = {
                 name = "Rallentando",
                 text = {
-                        "Played cards and Jokers",
-                        "each give {C:mult}+#1# {}Mult",
+                    "Copies the ability",
+                    "of a random {C:attention}Joker"
                 },
             },
 
@@ -230,10 +230,11 @@ return {
             j_ameliorates_athenerd = {
                 name = "Athenerd",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if played",
-                    "hand contains a",
-                    "{C:attention}#2# {}or",
-                    "{C:attention}#3#"
+                    "{X:mult,C:white}X#1#{} Mult if played hand",
+                    "contains a {C:attention}#2#",
+                    "Hand changes between 5-card",
+                    "poker hands at end of round",
+                    "{C:inactive}(May include {C:attention}secret {C:inactive}hands)"
                 },
             },
 
@@ -271,7 +272,10 @@ return {
                 name = "Trumpoff",
                 text = {
                     {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains",
+                        "{X:mult,C:white}X#2#{} Mult for each",
+                        "{C:attention}Enhanced {}card scored",
+                        "{C:inactive}(Currently {X:red,C:white}X#1#{C:inactive} Mult)"
                     }
                 },
             },
@@ -300,8 +304,9 @@ return {
                 name = "Bushka",
                 text = {
                     {
-                        "{X:chips,C:white}X#2#{} Chips for each {C:attention}Joker{} card.",
-                        "{C:inactive}(Currently {X:chips,C:white}X#1#{C:inactive} Chips)",
+                        "Played {C:attention}face {}cards",
+                        "each give {X:chips,C:white}X#1#{} Chips",
+                        "when scored",
                     }
                 },
             },
