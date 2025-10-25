@@ -1122,7 +1122,7 @@ SMODS.Atlas({
 -- Have him eating lettuce with the expression referencing the fucking chewing face you can't escape from
 SMODS.Joker{
     key = "rallentando",                                  --name used by the joker.    
-    config = {extra = {chosen_joker}},    --variables used for abilities and effects.
+    config = {extra = {chosen_joker = nil}},    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 10,                                            --cost to buy the joker in shops.
@@ -1137,27 +1137,22 @@ SMODS.Joker{
 
     calculate = function(self,card,context)              --define calculate functions here
         if not context.blueprint then
-            if 
+            if context.setting_blind or context.after or
                 (context.buying_card and context.card.config.center.key == self.key and context.cardarea == G.jokers) or 
                 (context.card and (context.joker_type_destroyed or (context.selling_card and context.card.ability.set == 'Joker')))
             then
-                if context.setting_blind or context.after then --TODO: Make it so Rallentando rerolls when a joker is added or removed from deck.
-                    local compat_jokers = {}
-                    for _,joker in G.jokers.cards do
-                        if joker ~= card and joker.ability.blueprint_compat then
-                            compat_jokers[#compat_jokers + 1] = joker
-                        end
+                local compat_jokers = {}
+                for _,joker in pairs(G.jokers.cards) do
+                    if joker ~= card and joker.config.center.blueprint_compat then
+                        compat_jokers[#compat_jokers + 1] = joker
                     end
-                    card.ability.extra.chosen_joker = pseudorandom('rallentando', 1, #compat_jokers)
                 end
-                if card.ability.extra.chosen_joker then
-                    local ret = SMODS.blueprint_effect(card, card.ability.extra.chosen_joker, context)
-                    if ret then
-                        ret.colour = G.C.RED
-                    end
-                    return ret
-                end
+                card.ability.extra.chosen_joker = pseudorandom_element(compat_jokers, 'rallentando' .. G.GAME.round_resets.ante)
             end
+        end
+        
+        if card.ability.extra.chosen_joker then
+            return SMODS.blueprint_effect(card, card.ability.extra.chosen_joker, context)
         end
     end,
 
@@ -1249,14 +1244,14 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
+        local poker_hand = G.GAME.current_round.ameliorates_athenerd or "Flush House"
         return {
-            local hand = G.GAME.current_round.ameliorates_athenerd or "Flush House"
             vars = {
                 card.ability.extra.x_mult,
-                hand,
+                poker_hand,
             },
             key = self.key
-            }
+        }
     end
 }
 
@@ -1401,7 +1396,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "spotscast",                                  --name used by the joker.    
-    config = { extra = {odds = 3} },    --variables used for abilities and effects.
+    config = { extra = {odds = 3, jokers = {}} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                             --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     soul_pos = { x = 1, y = 0 },
     rarity = 4,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
@@ -1415,19 +1410,29 @@ SMODS.Joker{
     atlas = 'spotscast',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-        local effects = {}
-        for k, v in pairs(G.jokers.cards) do
-            if SMODS.pseudorandom_probability(card, 'spotscast', 1, card.ability.extra.odds) then
-                if v ~= card then
-                    local effect = SMODS.blueprint_effect(card, v, context)
-                    if effect then
-                        effect.colour = G.C.RED
+        if not context.blueprint then
+            if context.setting_blind or context.after or
+                (context.buying_card and context.card.config.center.key == self.key and context.cardarea == G.jokers) or 
+                (context.card and (context.joker_type_destroyed or (context.selling_card and context.card.ability.set == 'Joker')))
+            then
+                card.ability.extra.jokers = {}
+                for _,joker in pairs(G.jokers.cards) do
+                    if joker ~= card and joker.config.center.blueprint_compat and SMODS.pseudorandom_probability(card, 'spotscast', 1, card.ability.extra.odds) then
+                        card.ability.extra.jokers[#card.ability.extra.jokers + 1] = joker
                     end
-                    table.insert(effects, effect)
                 end
             end
         end
-        return SMODS.merge_effects(effects)
+        
+        if card.ability.extra.jokers then
+            local ret = {}
+            for _,joker in ipairs(card.ability.extra.jokers) do
+                ret[#ret + 1] = SMODS.blueprint_effect(card, joker, context)
+            end
+            if ret then
+                return SMODS.merge_effects(ret)
+            end
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
@@ -1530,7 +1535,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "monkdom",                                  --name used by the joker.    
-    config = { extra = {} },    --variables used for abilities and effects.
+    config = { extra = {x_mult = 1, x_mult_mod = 1} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     soul_pos={x=1,y=0}, 
     rarity = 4,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
@@ -1544,11 +1549,21 @@ SMODS.Joker{
     atlas = 'monkdom',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+            if context.beat_boss then
+                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod
+                return { message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } } }
+            end
+        end
+        if context.joker_main then
+            return {
+                x_mult = card.ability.extra.x_mult
+            }
+        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
-        return { vars = {}, key = self.key }
+        return { vars = {card.ability.extra.x_mult,card.ability.extra.x_mult_mod}, key = self.key }
     end
 }
 

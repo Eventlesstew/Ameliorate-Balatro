@@ -187,10 +187,10 @@ return {
             j_ameliorates_robby = {
                 name = "Robby",
                 text = {
-                        "{C:chips}+#1# {}Chips if",
-                        "{V:1}#2#{} cards are scored",
-                        "{X:mult,C:white}X#3#{} Mult if",
-                        "{V:2}#4#{} cards are scored",
+                        "{C:chips}+#1# {}Chips if {V:1}#2#{}",
+                        "cards are scored",
+                        "{X:mult,C:white}X#3#{} Mult if {V:2}#4#{}",
+                        "cards are scored",
                         "Suits change every round",
                 },
             },
@@ -295,7 +295,9 @@ return {
                 name = "Monkdom",
                 text = {
                     {
-                        "{X:mult,C:white}INCOMPLETE{}",
+                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
+                        "when {C:attention}Boss Blind {}is defeated",
+                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                     }
                 },
             },
