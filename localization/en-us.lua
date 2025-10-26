@@ -23,7 +23,8 @@ return {
                 name = "Guira",
                 text = {
                     {
-                        "{C:chips}+#2#{} Chips for each {C:attention}Joker {}card",
+                        "{C:chips}+#2#{} Chips for",
+                        "each {C:attention}Joker {}card",
                         "{C:inactive}(Currently {C:chips}+#1# {C:inactive}Chips)"
                     }
                 },
@@ -35,7 +36,7 @@ return {
                         "If {C:attention}first hand {}of",
                         "round has only {C:attention}1{}",
                         "card, add a random",
-                        "{C:attention}enhancement {}to it."
+                        "{C:attention}enhancement {}to it"
                 },
             },
 
@@ -43,7 +44,7 @@ return {
                 name = "Meeka",
                 text = {
                         "{C:green}#1# in #2#{} chance to",
-                        "retrigger played card."
+                        "retrigger played card"
                 },
             },
 
@@ -51,8 +52,8 @@ return {
                 name = "Etikan",
                 text = {
                     {
-                        "This Joker gains {C:chips}+#2#{} Chip per",
-                        "discarded card.",
+                        "This Joker gains {C:chips}+#2#{} Chip",
+                        "for each card discarded",
                         "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)",
                     }
                 },
@@ -61,8 +62,10 @@ return {
                 name = "Tabi",
                 text = {
                     {
-                        "This Joker gains {X:mult,C:white}X#2#{} Mult",
-                        "when a {C:attention}Joker {}is destroyed",
+                        "Gains {X:mult,C:white}X#2#{} Mult when a",
+                        "{C:attention}Joker {}is destroyed,",
+                        "Gains {X:mult,C:white}X#3#{} Mult when a",
+                        "{C:attention}playing card{} is destroyed",
                         "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
                     }
                 },
@@ -109,8 +112,8 @@ return {
             j_ameliorates_orgako = {
                 name = "Orgako",
                 text = {
-                        "Retrigger all cards played",
-                        "with an {C:attention}Edition"
+                        "Retrigger all played",
+                        "cards with an {C:attention}Edition"
                 },
             },
 
@@ -119,9 +122,9 @@ return {
                 text = {
                         "Earn {C:money}$#1# {}at end of round",
                         "Payout increases by {C:money}$#2#",
-                        "when hand is played",
-                        "{C:red}Self-destructs {}if",
-                        "Payout exceeds {C:money}$#3#"
+                        "when hand is played,",
+                        "resets if payout",
+                        "exceeds {C:money}$#3#"
                 },
             },
 

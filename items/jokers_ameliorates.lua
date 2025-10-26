@@ -223,7 +223,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "tabi",
-    config = {extra = { x_mult_mod = 0.75, x_mult = 1}},
+    config = {extra = { x_mult_mod_joker = 0.5, x_mult_mod_card = 0.1, x_mult = 1}},
     pos = { x = 0, y = 0 },
     rarity = 2,
     cost = 5,
@@ -237,14 +237,18 @@ SMODS.Joker{
     soul_pos = nil,
 
     calculate = function(self, card, context)
-        if not context.blueprint then -- This should be jokers destroyed.
+        if not context.blueprint then
+            local upgrade = false
             if context.joker_type_destroyed and context.card then
-                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod
-                return {                             -- shows a message under the specified card (card) when it triggers, k_upgrade_ex is a key in the localization files of Balatro
-                    extra = {focus = card, message = localize('k_upgrade_ex')},
-                    card = card,
-                    colour = G.C.RED
-                }
+                card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_mod_joker
+                upgrade = true
+            end
+            if context.remove_playing_cards then
+                card.ability.extra.x_mult = card.ability.extra.x_mult + (card.ability.extra.x_mult_mod_card * #context.removed)
+                upgrade = true
+            end
+            if upgrade then
+                return { message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } } }
             end
         end
         if context.joker_main and context.cardarea == G.jokers then
@@ -259,7 +263,7 @@ SMODS.Joker{
     end,
 
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.x_mult, card.ability.extra.x_mult_mod} }
+        return { vars = { card.ability.extra.x_mult, card.ability.extra.x_mult_mod_joker, card.ability.extra.x_mult_mod_card} }
     end
 }
 
@@ -362,7 +366,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "nillacorn",                                  --name used by the joker.    
-    config = { extra = {chips = 100, chip_mod = 5} },    --variables used for abilities and effects.
+    config = { extra = {chips = 50, chip_mod = 5} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },
     soul_pos = { x = 1, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
@@ -489,7 +493,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "alliumaid",                                  --name used by the joker.    
-    config = { extra = {dollars = 2, dollar_mod = 2, dollar_limit = 20} },    --variables used for abilities and effects.
+    config = { extra = {dollars = 1, dollar_mod = 1, dollar_limit = 10} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 8,                                            --cost to buy the joker in shops.
@@ -507,7 +511,7 @@ SMODS.Joker{
             if context.after then
                 card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
                 if card.ability.extra.dollars > card.ability.extra.dollar_limit then
-                    SMODS.destroy_cards(card, nil, nil, true)
+                    card.ability.extra.dollars = 1
                     return {
                         message = localize('k_clean_ex'),
                         colour = G.C.MONEY,
@@ -739,7 +743,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "trashcymbal",                                  --name used by the joker.    
-    config = { extra = {chips = 111, mult = 20} },    --variables used for abilities and effects.
+    config = { extra = {chips = 63, mult = 20} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 2,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 7,                                            --cost to buy the joker in shops.
