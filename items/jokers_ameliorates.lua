@@ -893,7 +893,7 @@ SMODS.Joker{
     config = { extra = {x_mult = 1, x_mult_mod = 0.05, suit = 'Diamonds'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 7,                                            --cost to buy the joker in shops.
+    cost = 9,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=false,
@@ -934,7 +934,6 @@ SMODS.Atlas({
     py = 95
 })
 
--- Idea: Creates a Spectral Card when every second blind is selected.
 SMODS.Joker{
     key = "organe",                                  --name used by the joker.    
     config = { extra = {} },    --variables used for abilities and effects.
@@ -1072,7 +1071,7 @@ SMODS.Joker{
     config = { extra = {x_mult = 1, x_mult_mod = 0.2} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 8,                                            --cost to buy the joker in shops.
+    cost = 9,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1177,7 +1176,7 @@ SMODS.Joker{
     config = { extra = {dollars = 4, dollar_mod = 4} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 8,                                            --cost to buy the joker in shops.
+    cost = 9,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1284,7 +1283,7 @@ SMODS.Joker{
     config = { extra = {suit = 'Clubs'} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 7,                                            --cost to buy the joker in shops.
+    cost = 8,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1319,11 +1318,11 @@ SMODS.Atlas({
 SMODS.Joker{
     key = "deltah",                                  --name used by the joker.    
     config = { 
-        extra = {x_mult_mod = 5},
+        extra = {x_mult = 3, odds = 3, odds_mod = 0.3, rank = 3},
     },
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
-    cost = 8,                                            --cost to buy the joker in shops.
+    cost = 9,                                            --cost to buy the joker in shops.
     blueprint_compat=true,                               --does joker work with blueprint.
     eternal_compat=true,                                 --can joker be eternal.
     perishable_compat=true,
@@ -1335,6 +1334,20 @@ SMODS.Joker{
 
     calculate = function(self,card,context)              --define calculate functions here
         if context.joker_main and context.cardarea == G.jokers then
+            local card_count = 0
+            for _,scored_card in ipairs(context.scoring_hand) do
+                if scored_card:get_id() == card.ability.extra.rank then
+                    card_count = card_count + 1
+                end
+            end
+
+            if SMODS.pseudorandom_probability(card, 'deltah', 1 + (card_count * card.ability.extra.odds_mod), card.ability.extra.odds) then
+                return {
+                    x_mult = card.ability.extra.x_mult,
+                    colour = G.C.MULT
+                }
+            end
+            --[[
             local my_pos = 1
             local joker_count = G.jokers.config.card_limit
             
@@ -1354,10 +1367,12 @@ SMODS.Joker{
                 x_mult = x_mult_gain,
                 colour = G.C.MULT
             }
+            ]]
         end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
+        --[[
         local joker_count = 5
         local my_pos = 1
         if G.jokers then
@@ -1376,6 +1391,9 @@ SMODS.Joker{
         end
         local x_mult_gradient = (card.ability.extra.x_mult_mod - 1) / (joker_count - 1)
         return { vars = {x_mult_gain, card.ability.extra.x_mult_mod, x_mult_gradient}, key = self.key }
+        ]]
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'deltah')
+        return { vars = {numerator, denominator, card.ability.extra.x_mult, card.ability.extra.odds_mod, card.ability.extra.rank}, key = self.key }
     end
 }
 

@@ -252,11 +252,10 @@ return {
             j_ameliorates_deltah = {
                 name = "Deltah",
                 text = {
-                        "{X:mult,C:white}X#2#{} Mult",
-                        "Loses {X:mult,C:white}X#3#{} Mult the",
-                        "further away it",
-                        "is from the left",
-                        "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
+                        "{C:green}#1# in #2#{} chance for",
+                        "{X:mult,C:white}X#3#{} Mult, chance",
+                        "increases by {C:green}#4#{} for",
+                        "each {C:attention}#5# {}in played hand"
                 },
             },
 
