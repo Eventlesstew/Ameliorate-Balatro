@@ -57,8 +57,11 @@ ameliorates.config_tab = function()
 	}
 end
 
+-- Decks
+--assert(SMODS.load_file("items/decks.lua"))
+
 -- Blinds
-assert(SMODS.load_file("items/blinds.lua"))
+--assert(SMODS.load_file("items/blinds.lua"))
 
 -- Jokers
 assert(SMODS.load_file("items/jokers.lua"))

@@ -248,17 +248,14 @@ SMODS.Joker{
                 upgrade = true
             end
             if upgrade then
-                return { message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } } }
+                return { message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } } }
             end
         end
         if context.joker_main and context.cardarea == G.jokers then
-            if card.ability.extra.x_mult > 1 then
-                return {
-                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.x_mult}},
-                    colour = G.C.RED,
-                    x_mult = card.ability.extra.x_mult
-                }
-            end
+            return {
+                colour = G.C.RED,
+                x_mult = card.ability.extra.x_mult
+            }
         end
     end,
 
@@ -1318,7 +1315,7 @@ SMODS.Atlas({
 SMODS.Joker{
     key = "deltah",                                  --name used by the joker.    
     config = { 
-        extra = {x_mult = 3, odds = 3, odds_mod = 0.3, rank = 3},
+        extra = {x_mult = 3, odds = 3, rank = 3},
     },
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
@@ -1333,20 +1330,16 @@ SMODS.Joker{
     atlas = 'deltah',                                --atlas name, single sprites are deprecated.
 
     calculate = function(self,card,context)              --define calculate functions here
-        if context.joker_main and context.cardarea == G.jokers then
-            local card_count = 0
-            for _,scored_card in ipairs(context.scoring_hand) do
-                if scored_card:get_id() == card.ability.extra.rank then
-                    card_count = card_count + 1
+        if context.individual and context.cardarea == G.play then
+            if context.other_card:get_id() == card.ability.extra.rank then
+                if SMODS.pseudorandom_probability(card, 'deltah', 1, card.ability.extra.odds) then
+                    return {
+                        x_mult = card.ability.extra.x_mult,
+                        colour = G.C.MULT
+                    }
                 end
             end
-
-            if SMODS.pseudorandom_probability(card, 'deltah', 1 + (card_count * card.ability.extra.odds_mod), card.ability.extra.odds) then
-                return {
-                    x_mult = card.ability.extra.x_mult,
-                    colour = G.C.MULT
-                }
-            end
+        end
             --[[
             local my_pos = 1
             local joker_count = G.jokers.config.card_limit
@@ -1368,7 +1361,6 @@ SMODS.Joker{
                 colour = G.C.MULT
             }
             ]]
-        end
     end,
 
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
@@ -1393,7 +1385,7 @@ SMODS.Joker{
         return { vars = {x_mult_gain, card.ability.extra.x_mult_mod, x_mult_gradient}, key = self.key }
         ]]
         local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'deltah')
-        return { vars = {numerator, denominator, card.ability.extra.x_mult, card.ability.extra.odds_mod, card.ability.extra.rank}, key = self.key }
+        return { vars = {numerator, denominator, card.ability.extra.x_mult, card.ability.extra.rank}, key = self.key }
     end
 }
 
@@ -1634,3 +1626,83 @@ function SMODS.current_mod.reset_game_globals(run_start)
     reset_ameliorates_athenerd() -- See Athenerd
     reset_ameliorates_robby() -- See Robby
 end
+
+-- Onyx
+SMODS.Atlas({
+    key = "final_onyx",
+    path = "final_onyx.png",
+    atlas_table = 'ANIMATION_ATLAS',
+    frames = 21,
+    px = 34,
+    py = 34
+})
+
+SMODS.Blind {
+    key = "final_onyx",
+    atlas = 'final_onyx',
+    pos = { x = 0, y = 0 },
+    vars = {suit='Spades'},
+    dollars = 8,
+    mult = 2,
+    boss = { showdown = true },
+    boss_colour = HEX("6c4c7d"),
+    get_loc_debuff_text = function(self)
+        return G.GAME.blind.loc_debuff_text ..
+            (G.GAME.blind.only_hand and ' [' .. localize(G.GAME.blind.only_hand, 'poker_hands') .. ']' or '')
+    end,
+    calculate = function(self, blind, context)
+        if not blind.disabled then
+            if context.hand_drawn then
+                blind.effect.suit = pseudorandom_element(SMODS.Suits, 'seed').key
+                blind:wiggle()
+
+                for k, v in pairs(G.playing_cards) do
+                    if v.debuff ~= v:is_suit(blind.effect.suit) then
+                        v:juice_up()
+                    end
+                    v.debuff = v:is_suit(blind.effect.suit)
+                end
+            end
+            if context.debuff_hand then
+                for k, v in pairs(context.full_hand) do
+                    if v.debuff then
+                        return {debuff = true}
+                    end
+                end
+            end
+        end
+    end
+}
+
+SMODS.Atlas({
+    key = "signal_deck",
+    path = "spotscast.png",
+    px = 71,
+    py = 95
+})
+
+SMODS.Back {
+    key = "signal_deck",
+    atlas = "signal_deck",
+    pos = { x = 0, y = 0 },
+    unlocked = true,
+    config = { extra = {seal = 'Red',count = 10}},
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local i = 0
+                while i < self.config.extra.count do
+                    local v = pseudorandom_element(G.playing_cards, 'signal')
+                    if v:get_seal() ~= "Red" then
+                        v:set_seal(self.config.extra.seal, nil, true)
+                        i = i + 1
+                    end
+                end
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, back)
+        return { vars = {self.config.extra.seal,self.config.extra.count} }
+    end,
+}

@@ -1,5 +1,15 @@
 return {
     descriptions = {
+        Back = {
+            b_ameliorates_signal_deck = {
+                name = "Signal Deck",
+                text = {
+                    "Add a {C:red}Red Seal{}",
+                    "to {C:attention}#2# {}random cards",
+                }
+            }
+        },
+
         Blind = {
             bl_ameliorates_final_onyx = {
                 name = "Unknown Entity",
@@ -9,13 +19,15 @@ return {
                 },
             },
         },
+
         Joker = {
             j_ameliorates_reese = {
                 name = "Reese",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult when",
                     "{C:attention}Small Blind{} or",
-                    "{C:attention}Big Blind {}is selected"
+                    "{C:attention}Big Blind {}is",
+                    "selected"
                 },
             },
 
@@ -179,10 +191,9 @@ return {
             j_ameliorates_organe = {
                 name = "Organe",
                 text = {
-                    "When round begins,",
-                    "add a random",
-                    "{C:attention}playing card {}with a",
-                    "{C:attention}Glass {}enhancement",
+                    "When round begins, add a",
+                    "random {C:attention}playing card",
+                    "with a {C:attention}Glass {}enhancement",
                     "to your hand",
                 },
             },
@@ -190,9 +201,9 @@ return {
             j_ameliorates_robby = {
                 name = "Robby",
                 text = {
-                        "{C:chips}+#1# {}Chips if {V:1}#2#{}",
+                        "{C:chips}+#1# {}Chips when {V:1}#2#{}",
                         "cards are scored",
-                        "{X:mult,C:white}X#3#{} Mult if {V:2}#4#{}",
+                        "{X:mult,C:white}X#3#{} Mult when {V:2}#4#{}",
                         "cards are scored",
                         "Suits change every round",
                 },
@@ -253,9 +264,8 @@ return {
                 name = "Deltah",
                 text = {
                         "{C:green}#1# in #2#{} chance for",
-                        "{X:mult,C:white}X#3#{} Mult, chance",
-                        "increases by {C:green}#4#{} for",
-                        "each {C:attention}#5# {}in played hand"
+                        "{X:mult,C:white}X#3#{} Mult for",
+                        "each played {C:attention}#4#"
                 },
             },
 
@@ -287,8 +297,8 @@ return {
                 text = {
                     {
                         "{X:mult,C:white}X#1#{} Mult",
-                        "{X:mult,C:white}X#2#{} Mult if",
-                        "copied by another Joker"
+                        "{X:mult,C:white}X#2#{} Mult if copied",
+                        "by another Joker"
                     }
                 },
             },
