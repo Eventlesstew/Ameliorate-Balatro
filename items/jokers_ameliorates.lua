@@ -1641,7 +1641,7 @@ SMODS.Blind {
     key = "final_onyx",
     atlas = 'final_onyx',
     pos = { x = 0, y = 0 },
-    vars = {suit='Spades'},
+    vars = {active=true},
     dollars = 8,
     mult = 2,
     boss = { showdown = true },
@@ -1652,17 +1652,38 @@ SMODS.Blind {
     end,
     calculate = function(self, blind, context)
         if not blind.disabled then
-            if context.hand_drawn then
-                blind.effect.suit = pseudorandom_element(SMODS.Suits, 'seed').key
-                blind:wiggle()
-
-                for k, v in pairs(G.playing_cards) do
-                    if v.debuff ~= v:is_suit(blind.effect.suit) then
-                        v:juice_up()
-                    end
-                    v.debuff = v:is_suit(blind.effect.suit)
-                end
+            if context.before or context.debuffed_hand then
+                blind.effect.active = true
             end
+            if context.setting_blind or (context.hand_drawn and blind.effect.active) then
+                local valid_onyx_cards = {}
+                for _, playing_card in ipairs(G.playing_cards) do
+                    if not (SMODS.has_no_suit(playing_card) or SMODS.has_enhancement(playing_card, 'm_stone')) then
+                        valid_onyx_cards[#valid_onyx_cards + 1] = playing_card
+                    end
+                end
+                local onyx_card = pseudorandom_element(valid_onyx_cards, 'ameliorates_onyx')
+                if onyx_card then
+                    blind:wiggle()
+                    for k, v in pairs(G.playing_cards) do
+                        local juice = false
+                        if v.debuff then
+                            juice = true
+                            v.debuff = false
+                        end
+                        if v:is_suit(onyx_card.base.suit) then
+                            juice = true
+                            v.debuff = true
+                        end
+
+                        if juice then
+                            v:juice_up()
+                        end
+                    end
+                end
+                blind.effect.active = false
+            end
+            
             if context.debuff_hand then
                 for k, v in pairs(context.full_hand) do
                     if v.debuff then
@@ -1673,6 +1694,7 @@ SMODS.Blind {
         end
     end
 }
+
 
 SMODS.Atlas({
     key = "signal_deck",
@@ -1692,7 +1714,7 @@ SMODS.Back {
             func = function()
                 local i = 0
                 while i < self.config.extra.count do
-                    local v = pseudorandom_element(G.playing_cards, 'signal')
+                    local v = pseudorandom_element(G.playing_cards, 'ameliorates_signal')
                     if v:get_seal() ~= "Red" then
                         v:set_seal(self.config.extra.seal, nil, true)
                         i = i + 1
@@ -1706,3 +1728,71 @@ SMODS.Back {
         return { vars = {self.config.extra.seal,self.config.extra.count} }
     end,
 }
+
+SMODS.Atlas({
+    key = "clay_deck",
+    path = "trumpoff.png",
+    px = 71,
+    py = 95
+})
+
+SMODS.Back {
+    key = "clay_deck",
+    atlas = "clay_deck",
+    pos = { x = 0, y = 0 },
+    unlocked = true,
+    config = { extra = {count = 8}},
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local i = 0
+                while i < self.config.extra.count do
+                    local v = pseudorandom_element(G.playing_cards, 'ameliorates_clay')
+                    if not next(SMODS.get_enhancements(v)) then
+                        v:set_ability(SMODS.poll_enhancement({guaranteed = true, options = options}), nil, true)
+                        i = i + 1
+                    end
+                end
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, back)
+        return { vars = {self.config.extra.count} }
+    end,
+}
+
+--[[
+SMODS.Atlas({
+    key = "trash_deck",
+    path = "refabric.png",
+    px = 71,
+    py = 95
+})
+
+SMODS.Back {
+    key = "trash_deck",
+    atlas = "trash_deck",
+    pos = { x = 0, y = 0 },
+    unlocked = true,
+    config = { extra = {}},
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local suit = pseudorandom_element(G.SUITS, 'ameliorates_trash')
+                local cards = {}
+                for _,v in pairs(G.playing_cards) do
+                    if v:is_suit(suit) then
+                        cards[#cards + 1] = v
+                    end
+                end
+                SMODS.destroy_cards(cards)
+                return true
+            end
+        }))
+    end,
+    loc_vars = function(self, info_queue, back)
+        return { vars = {} }
+    end,
+}
+]]

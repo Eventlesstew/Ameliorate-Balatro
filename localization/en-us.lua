@@ -7,7 +7,36 @@ return {
                     "Add a {C:red}Red Seal{}",
                     "to {C:attention}#2# {}random cards",
                 }
-            }
+            },
+            b_ameliorates_clay_deck = {
+                name = "Clay Deck",
+                text = {
+                    "Applies a random",
+                    "{C:attention}Enhancement {}to {C:attention}#1#",
+                    "random cards",
+                }
+            },
+            b_ameliorates_trash_deck = {
+                name = "Trash Deck",
+                text = {
+                    "Removes a random",
+                    "{C:attention}suit {}from deck"
+                }
+            },
+            b_ameliorates_bulb_deck = {
+                name = "Bulb Deck",
+                text = {
+                    "{X:mult,C:white}INCOMPLETE"
+                    -- Adds a random edition to 4 random face cards
+                }
+            },
+            b_ameliorates_hostess_deck = {
+                name = "Hostess Deck",
+                text = {
+                    "{X:mult,C:white}INCOMPLETE"
+                    -- Replaces 3 random cards in each suit with a Jack, Queen and King
+                }
+            },
         },
 
         Blind = {
