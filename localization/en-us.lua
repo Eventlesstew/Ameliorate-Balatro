@@ -372,7 +372,17 @@ return {
                     }
                 },
             },
-        }
+        },
+        Other = {
+            g_onfire = {
+                name = "Hand On Fire",
+                text = {
+                    "Occurs when {C:attention}played hand",
+                    "scores greater than the",
+                    "{C:attention}Blind{} score"
+                },
+            },
+        },
     },
     misc = {
 

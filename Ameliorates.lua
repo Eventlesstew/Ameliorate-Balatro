@@ -16,6 +16,7 @@ G.FUNCS.restart_game_smods = function(e)
 	SMODS.restart_game()
 end
 
+--[[
 ameliorates.config_tab = function()
 	return {
 		n = G.UIT.ROOT,
@@ -56,6 +57,7 @@ ameliorates.config_tab = function()
 		}
 	}
 end
+]]
 
 -- Decks
 --assert(SMODS.load_file("items/decks.lua"))
@@ -65,10 +67,13 @@ end
 
 -- Jokers
 assert(SMODS.load_file("items/jokers.lua"))
+assert(SMODS.load_file("items/jokers_ameliorates.lua"))()
 
+--[[
 if ameliorates.config_file.ameliorates then
     assert(SMODS.load_file("items/jokers_ameliorates.lua"))()
 end
 if ameliorates.config_file.extras then
     assert(SMODS.load_file("items/jokers_extras.lua"))()
 end
+]]--
