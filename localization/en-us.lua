@@ -232,7 +232,7 @@ return {
                 text = {
                         "{C:chips}+#1# {}Chips when {V:1}#2#{}",
                         "cards are scored",
-                        "{X:mult,C:white}X#3#{} Mult when {V:2}#4#{}",
+                        "{C:mult,}+#3#{} Mult when {V:2}#4#{}",
                         "cards are scored",
                         "Suits change every round",
                 },

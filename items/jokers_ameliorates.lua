@@ -988,7 +988,7 @@ SMODS.Atlas({
 
 SMODS.Joker{
     key = "robby",                                  --name used by the joker.    
-    config = { extra = {chips = 60, x_mult = 1.5} },    --variables used for abilities and effects.
+    config = { extra = {chips = 50, mult = 7} },    --variables used for abilities and effects.
     pos = { x = 0, y = 0 },                              --pos in spritesheet 0,0 for single sprites or the first sprite in the spritesheet.
     rarity = 3,                                          --rarity 1=common, 2=uncommen, 3=rare, 4=legendary
     cost = 8,                                            --cost to buy the joker in shops.
@@ -1015,7 +1015,7 @@ SMODS.Joker{
             end
             if context.other_card:is_suit(G.GAME.current_round.robby_suit_2.suit) then
                 effects[#effects + 1] = {
-                    x_mult = card.ability.extra.x_mult, 
+                    mult = card.ability.extra.mult, 
                     colour = G.C.MULT,
                     focus = card
                 }
@@ -1030,7 +1030,7 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)          --defines variables to use in the UI. you can use #1# for example to show the chips variable
         local suit1 = (G.GAME.current_round.robby_suit_1 or {}).suit or 'Spades'
         local suit2 = (G.GAME.current_round.robby_suit_2 or {}).suit or 'Hearts'
-        return { vars = {card.ability.extra.chips, localize(suit1, 'suits_singular'), card.ability.extra.x_mult, localize(suit2, 'suits_singular'), colours = {G.C.SUITS[suit1], G.C.SUITS[suit2]}}, key = self.key }
+        return { vars = {card.ability.extra.chips, localize(suit1, 'suits_singular'), card.ability.extra.mult, localize(suit2, 'suits_singular'), colours = {G.C.SUITS[suit1], G.C.SUITS[suit2]}}, key = self.key }
     end
 }
 
@@ -1038,21 +1038,30 @@ local function reset_ameliorates_robby()
     G.GAME.current_round.robby_suit_1 = {suit = 'Spades'}
     G.GAME.current_round.robby_suit_2 = {suit = 'Hearts'}
 
-    local valid_robby_cards = {}
+    local valid_robby_cards_1 = {}
     for _, playing_card in ipairs(G.playing_cards) do
         if not SMODS.has_no_suit(playing_card) then
-            valid_robby_cards[#valid_robby_cards + 1] = playing_card
+            valid_robby_cards_1[#valid_robby_cards_1 + 1] = playing_card
         end
     end
 
-    local robby_card_1 = pseudorandom_element(valid_robby_cards, 'robby1' .. G.GAME.round_resets.ante)
+    local robby_card_1 = pseudorandom_element(valid_robby_cards_1, 'robby1' .. G.GAME.round_resets.ante)
     if robby_card_1 then
         G.GAME.current_round.robby_suit_1.suit = robby_card_1.base.suit
     end
 
-    local robby_card_2 = pseudorandom_element(valid_robby_cards, 'robby2' .. G.GAME.round_resets.ante)
+    local valid_robby_cards_2 = {}
+    for _, playing_card in ipairs(G.playing_cards) do
+        if (not SMODS.has_no_suit(playing_card)) and playing_card.base.suit ~= G.GAME.current_round.robby_suit_1.suit then
+            valid_robby_cards_2[#valid_robby_cards_2 + 1] = playing_card
+        end
+    end
+
+    local robby_card_2 = pseudorandom_element(valid_robby_cards_2, 'robby2' .. G.GAME.round_resets.ante)
     if robby_card_2 then
         G.GAME.current_round.robby_suit_2.suit = robby_card_2.base.suit
+    else
+        G.GAME.current_round.robby_suit_2.suit = G.GAME.current_round.robby_suit_1.suit
     end
 end
 
@@ -1695,7 +1704,7 @@ SMODS.Blind {
     end
 }
 
-
+--[[
 SMODS.Atlas({
     key = "signal_deck",
     path = "spotscast.png",
@@ -1762,7 +1771,6 @@ SMODS.Back {
     end,
 }
 
---[[
 SMODS.Atlas({
     key = "trash_deck",
     path = "refabric.png",
